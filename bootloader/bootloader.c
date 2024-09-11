@@ -40,7 +40,7 @@
 
 // Timeout for bootloader after power-up, set to 0 to stay in bootloader forever
 // 75ms per unit; 67 ~= 5s
-#define BOOTLOADER_TIMEOUT_PWR 67
+#define BOOTLOADER_TIMEOUT_PWR 0
 
 // Timeout (reset) for bootloader once USB Host is detected, set to 0 to stay in bootloader forever
 // 75ms per unit; 0 costs 28 Bytes, >0 costs 48 Bytes; Comment out if not used
@@ -64,7 +64,7 @@ struct rv003usb_internal rv003usb_internal_data;
 // This is the data actually required for USB.
 uint8_t data_receptive;
 
-void SystemInit48HSIUNSAFE( void );
+//void SystemInit48HSIUNSAFE( void );
 
 void boot_usercode() {
 	FLASH->BOOT_MODEKEYR = FLASH_KEY1;
@@ -290,8 +290,8 @@ void usb_pid_handle_in( uint32_t addr, uint8_t * data, uint32_t endp, uint32_t u
 	
 	// Handle IN (sending data back to PC)
 	// Do this down here.
-	// We do this because we are required to have an in-endpoint.  We don't
-	// have to do anything with it, though.
+	// We do this because we are required to have an in-endpoint.
+	// We don't have to do anything with it, though.
 	if( endp ) //XXX TODO: This can be reworked - if it's anything other than "is_descriptor" then send nak.
 	{
 		// Save some space
@@ -402,9 +402,6 @@ void usb_pid_handle_data( uint32_t this_token, uint8_t * data, uint32_t which_da
 				//Set address.
 				ist->my_address = wvi;
 			}
-			else
-			{
-			}
 		}
 		else if( e->opaque )
 		{
@@ -437,7 +434,3 @@ just_ack:
 	}
 	return;
 }
-
-
-
-
