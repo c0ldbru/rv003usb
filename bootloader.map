@@ -1,0 +1,85 @@
+
+bootloader.elf:     file format elf32-littleriscv
+
+SYMBOL TABLE:
+00000000 l    d  .init	00000000 .init
+00000058 l    d  .text	00000000 .text
+00000760 l    d  .fini	00000000 .fini
+20000000 l    d  .dalign	00000000 .dalign
+00000760 l    d  .dlalign	00000000 .dlalign
+20000000 l    d  .data	00000000 .data
+20000000 l    d  .bss	00000000 .bss
+00000000 l    d  .debug_info	00000000 .debug_info
+00000000 l    d  .debug_abbrev	00000000 .debug_abbrev
+00000000 l    d  .debug_loclists	00000000 .debug_loclists
+00000000 l    d  .debug_aranges	00000000 .debug_aranges
+00000000 l    d  .debug_rnglists	00000000 .debug_rnglists
+00000000 l    d  .debug_line	00000000 .debug_line
+00000000 l    d  .debug_str	00000000 .debug_str
+00000000 l    d  .debug_line_str	00000000 .debug_line_str
+00000000 l    d  .comment	00000000 .comment
+00000000 l    d  .riscv.attributes	00000000 .riscv.attributes
+00000000 l    d  .debug_frame	00000000 .debug_frame
+00000000 l    df *ABS*	00000000 ccIcats7.o
+000004b4 l       .text	00000000 handle_se0_keepalive
+000002c0 l       .text	00000000 syncout
+000002c8 l       .text	00000000 preamble_loop
+00000452 l       .text	00000000 done_usb_message
+000002ec l       .text	00000000 done_preamble
+000002f8 l       .text	00000000 packet_type_loop
+00000344 l       .text	00000000 data_crc
+00000344 l       .text	00000000 is_end_of_byte
+0000034c l       .text	00000000 bit_process
+00000380 l       .text	00000000 handle_one_bit
+00000358 l       .text	00000000 handle_zero_bit
+000003d4 l       .text	00000000 se0_complete
+000003a8 l       .text	00000000 handle_bit_stuff
+000003b8 l       .text	00000000 not_is_end_of_byte_and_bit_stuffed
+00000452 l       .text	00000000 done_usb_message_in
+00000482 l       .text	00000000 usb_pid_handle_ack
+0000042a l       .text	00000000 crc_for_tokens_would_be_bad_maybe_data
+000003fc l       .text	00000000 may_be_a_token
+00000414 l       .text	00000000 yes_check_tokens
+000004b0 l       .text	00000000 usb_pid_handle_out
+0000049a l       .text	00000000 usb_pid_handle_setup
+0000045e l       .text	00000000 ret_from_se0
+0000046a l       .text	00000000 interrupt_complete
+00000564 l       .text	00000000 done_poly_check
+00000578 l       .text	00000000 pre_and_tok_send_inner_loop
+00000588 l       .text	00000000 pre_and_tok_send_one_bit
+00000598 l       .text	00000000 pre_and_tok_done_sending_data
+00000604 l       .text	00000000 no_really_done_sending_data
+000005a6 l       .text	00000000 done_poly_check2
+000005a8 l       .text	00000000 load_next_byte
+000005ac l       .text	00000000 send_inner_loop
+000005c8 l       .text	00000000 send_zero_bit
+0000063c l       .text	00000000 insert_stuffed_bit
+000005e0 l       .text	00000000 cont_after_jump
+000005e0 l       .text	00000000 send_end_bit_complete
+000005f0 l       .text	00000000 done_sending_data
+20000000 l     O .bss	00000004 runwordpadready
+00000694 l     O .text	00000054 descriptor_list
+00000654 l     O .text	0000000c string3
+00000660 l     O .text	00000018 string2
+00000678 l     O .text	00000016 string1
+00000690 l     O .text	00000004 string0
+000006e8 l     O .text	0000003f special_hid_desc
+00000728 l     O .text	00000022 config_descriptor
+0000074c l     O .text	00000012 device_descriptor
+00000514 g       .text	00000000 usb_send_empty
+20000800 g       .data	00000000 __global_pointer$
+20000100 g       *ABS*	00000000 scratchpad
+00000000 g       .init	00000000 InterruptVector
+00000058 g       .init	00000000 _einit
+00000258 g       .text	00000000 EXTI7_0_IRQHandler
+00000120 g     F .text	00000136 usb_pid_handle_data
+00000054 g       .init	00000000 always0
+000002f1  w      .debug_info	00000000 .hidden bootloader.c.8cd8fc9d
+00000058 g     F .text	0000007e main
+20000180 g       *ABS*	00000000 runwordpad
+00000000 g       .init	00000000 _sinit
+000000d6 g     F .text	0000004a usb_pid_handle_in
+00000522 g       .text	00000000 usb_send_data
+20000004 g     O .bss	0000005c rv003usb_internal_data
+
+

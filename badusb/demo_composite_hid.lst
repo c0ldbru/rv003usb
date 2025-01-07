@@ -1,0 +1,1870 @@
+
+demo_composite_hid.elf:     file format elf32-littleriscv
+
+
+Disassembly of section .init:
+
+00000000 <InterruptVector>:
+   0:	0b60006f          	j	b6 <handle_reset>
+   4:	00000000          	.word	0x00000000
+   8:	00000132          	.word	0x00000132
+   c:	00000130          	.word	0x00000130
+	...
+  30:	00000130          	.word	0x00000130
+  34:	00000000          	.word	0x00000000
+  38:	00000130          	.word	0x00000130
+  3c:	00000000          	.word	0x00000000
+  40:	00000130          	.word	0x00000130
+  44:	00000130          	.word	0x00000130
+  48:	00000130          	.word	0x00000130
+  4c:	00000130          	.word	0x00000130
+  50:	000004ec          	.word	0x000004ec
+  54:	00000130          	.word	0x00000130
+  58:	00000130          	.word	0x00000130
+  5c:	00000130          	.word	0x00000130
+  60:	00000130          	.word	0x00000130
+  64:	00000130          	.word	0x00000130
+  68:	00000130          	.word	0x00000130
+  6c:	00000130          	.word	0x00000130
+  70:	00000130          	.word	0x00000130
+  74:	00000130          	.word	0x00000130
+  78:	00000130          	.word	0x00000130
+  7c:	00000130          	.word	0x00000130
+  80:	00000130          	.word	0x00000130
+  84:	00000130          	.word	0x00000130
+  88:	00000130          	.word	0x00000130
+  8c:	00000130          	.word	0x00000130
+  90:	00000130          	.word	0x00000130
+  94:	00000130          	.word	0x00000130
+  98:	00000130          	.word	0x00000130
+  9c:	0000                	.insn	2, 0x
+	...
+
+Disassembly of section .text:
+
+000000a0 <DelaySysTick>:
+  a0:	e000f7b7          	lui	a5,0xe000f
+  a4:	479c                	lw	a5,8(a5)
+  a6:	e000f737          	lui	a4,0xe000f
+  aa:	953e                	add	a0,a0,a5
+  ac:	471c                	lw	a5,8(a4)
+  ae:	8f89                	sub	a5,a5,a0
+  b0:	fe07cee3          	bltz	a5,ac <DelaySysTick+0xc>
+  b4:	8082                	ret
+
+000000b6 <handle_reset>:
+  b6:	20000197          	auipc	gp,0x20000
+  ba:	74a18193          	add	gp,gp,1866 # 20000800 <__global_pointer$>
+  be:	00018113          	mv	sp,gp
+  c2:	08000513          	li	a0,128
+  c6:	30051073          	csrw	mstatus,a0
+  ca:	468d                	li	a3,3
+  cc:	00000517          	auipc	a0,0x0
+  d0:	f3450513          	add	a0,a0,-204 # 0 <InterruptVector>
+  d4:	8d55                	or	a0,a0,a3
+  d6:	30551073          	csrw	mtvec,a0
+  da:	20000517          	auipc	a0,0x20000
+  de:	f2650513          	add	a0,a0,-218 # 20000000 <tsajoystick.1>
+  e2:	89018593          	add	a1,gp,-1904 # 20000090 <_ebss>
+  e6:	4601                	li	a2,0
+  e8:	00b55663          	bge	a0,a1,f4 <handle_reset+0x3e>
+  ec:	c110                	sw	a2,0(a0)
+  ee:	0511                	add	a0,a0,4
+  f0:	feb54ee3          	blt	a0,a1,ec <handle_reset+0x36>
+  f4:	00001517          	auipc	a0,0x1
+  f8:	9fc50513          	add	a0,a0,-1540 # af0 <_data_lma>
+  fc:	20000597          	auipc	a1,0x20000
+ 100:	f0458593          	add	a1,a1,-252 # 20000000 <tsajoystick.1>
+ 104:	20000617          	auipc	a2,0x20000
+ 108:	efc60613          	add	a2,a2,-260 # 20000000 <tsajoystick.1>
+ 10c:	00c58863          	beq	a1,a2,11c <handle_reset+0x66>
+ 110:	4114                	lw	a3,0(a0)
+ 112:	c194                	sw	a3,0(a1)
+ 114:	0511                	add	a0,a0,4
+ 116:	0591                	add	a1,a1,4
+ 118:	fec59ae3          	bne	a1,a2,10c <handle_reset+0x56>
+ 11c:	e000f7b7          	lui	a5,0xe000f
+ 120:	4715                	li	a4,5
+ 122:	c398                	sw	a4,0(a5)
+ 124:	1a200793          	li	a5,418
+ 128:	34179073          	csrw	mepc,a5
+ 12c:	30200073          	mret
+
+00000130 <ADC1_IRQHandler>:
+ 130:	a001                	j	130 <ADC1_IRQHandler>
+
+00000132 <NMI_Handler>:
+ 132:	40021737          	lui	a4,0x40021
+ 136:	471c                	lw	a5,8(a4)
+ 138:	008006b7          	lui	a3,0x800
+ 13c:	8fd5                	or	a5,a5,a3
+ 13e:	c71c                	sw	a5,8(a4)
+
+00000140 <SystemInit>:
+ 140:	400227b7          	lui	a5,0x40022
+ 144:	4705                	li	a4,1
+ 146:	c398                	sw	a4,0(a5)
+ 148:	400217b7          	lui	a5,0x40021
+ 14c:	01080737          	lui	a4,0x1080
+ 150:	0007a223          	sw	zero,4(a5) # 40021004 <__global_pointer$+0x20020804>
+ 154:	08170713          	add	a4,a4,129 # 1080081 <rv003usb.c.cec892f7+0x107db6b>
+ 158:	c398                	sw	a4,0(a5)
+ 15a:	009f0737          	lui	a4,0x9f0
+ 15e:	c798                	sw	a4,8(a5)
+ 160:	40021737          	lui	a4,0x40021
+ 164:	431c                	lw	a5,0(a4)
+ 166:	00679693          	sll	a3,a5,0x6
+ 16a:	fe06dde3          	bgez	a3,164 <SystemInit+0x24>
+ 16e:	435c                	lw	a5,4(a4)
+ 170:	400216b7          	lui	a3,0x40021
+ 174:	9bf1                	and	a5,a5,-4
+ 176:	0027e793          	or	a5,a5,2
+ 17a:	c35c                	sw	a5,4(a4)
+ 17c:	4721                	li	a4,8
+ 17e:	42dc                	lw	a5,4(a3)
+ 180:	8bb1                	and	a5,a5,12
+ 182:	fee79ee3          	bne	a5,a4,17e <SystemInit+0x3e>
+ 186:	e00007b7          	lui	a5,0xe0000
+ 18a:	0f878793          	add	a5,a5,248 # e00000f8 <__global_pointer$+0xbffff8f8>
+ 18e:	0007a023          	sw	zero,0(a5)
+ 192:	e00007b7          	lui	a5,0xe0000
+ 196:	0f478793          	add	a5,a5,244 # e00000f4 <__global_pointer$+0xbffff8f4>
+ 19a:	08000713          	li	a4,128
+ 19e:	c398                	sw	a4,0(a5)
+ 1a0:	8082                	ret
+
+000001a2 <main>:
+#include <stdio.h>
+#include <string.h>
+#include "rv003usb.h"
+
+int main()
+{
+ 1a2:	1151                	add	sp,sp,-12
+ 1a4:	c406                	sw	ra,8(sp)
+ 1a6:	c222                	sw	s0,4(sp)
+ 1a8:	c026                	sw	s1,0(sp)
+	SystemInit();
+ 1aa:	3f59                	jal	140 <SystemInit>
+	Delay_Ms(1); // Ensures USB re-enumeration after bootloader or reset; Spec demand >2.5µs ( TDDIS )
+ 1ac:	6531                	lui	a0,0xc
+ 1ae:	b8050513          	add	a0,a0,-1152 # bb80 <rv003usb.c.cec892f7+0x966a>
+ 1b2:	35fd                	jal	a0 <DelaySysTick>
+void usb_setup()
+{
+	rv003usb_internal_data.se0_windup = 0;
+
+	// Enable GPIOs, TIMERs
+	RCC->APB2PCENR |= LOCAL_EXP( RCC_APB2Periph_GPIO, USB_PORT ) | RCC_APB2Periph_AFIO;
+ 1b4:	40021637          	lui	a2,0x40021
+ 1b8:	4e1c                	lw	a5,24(a2)
+	}
+#endif
+
+	// GPIO Setup
+	LOCAL_EXP( GPIO, USB_PORT )->CFGLR = 
+		( LOCAL_EXP( GPIO, USB_PORT )->CFGLR & 
+ 1ba:	40011737          	lui	a4,0x40011
+ 1be:	40070713          	add	a4,a4,1024 # 40011400 <__global_pointer$+0x20010c00>
+	RCC->APB2PCENR |= LOCAL_EXP( RCC_APB2Periph_GPIO, USB_PORT ) | RCC_APB2Periph_AFIO;
+ 1c2:	0217e793          	or	a5,a5,33
+ 1c6:	ce1c                	sw	a5,24(a2)
+		( LOCAL_EXP( GPIO, USB_PORT )->CFGLR & 
+ 1c8:	4314                	lw	a3,0(a4)
+ 1ca:	ff0015b7          	lui	a1,0xff001
+ 1ce:	15fd                	add	a1,a1,-1 # ff000fff <__global_pointer$+0xdf0007ff>
+ 1d0:	8eed                	and	a3,a3,a1
+			) )) )
+		 |
+#ifdef USB_PIN_DPU
+		(GPIO_Speed_50MHz | GPIO_CNF_OUT_PP)<<(4*USB_PIN_DPU) |
+#endif
+		(GPIO_Speed_In | GPIO_CNF_IN_PUPD)<<(4*USB_PIN_DP) | 
+ 1d2:	003885b7          	lui	a1,0x388
+ 1d6:	8ecd                	or	a3,a3,a1
+	LOCAL_EXP( GPIO, USB_PORT )->CFGLR = 
+ 1d8:	c314                	sw	a3,0(a4)
+		(GPIO_Speed_In | GPIO_CNF_IN_PUPD)<<(4*USB_PIN_DM);
+
+	// Configure USB_PIN_DM (D-) as an interrupt on falling edge.
+	AFIO->EXTICR = LOCAL_EXP(GPIO_PortSourceGPIO,USB_PORT)<<(USB_PIN_DM*2); // Configure EXTI interrupt for USB_PIN_DM
+ 1da:	30000593          	li	a1,768
+ 1de:	400106b7          	lui	a3,0x40010
+ 1e2:	c68c                	sw	a1,8(a3)
+	EXTI->INTENR = 1<<USB_PIN_DM; // Enable EXTI interrupt
+ 1e4:	40068693          	add	a3,a3,1024 # 40010400 <__global_pointer$+0x2000fc00>
+ 1e8:	45c1                	li	a1,16
+ 1ea:	c28c                	sw	a1,0(a3)
+	EXTI->FTENR = 1<<USB_PIN_DM;  // Enable falling edge trigger for USB_PIN_DM (D-)
+ 1ec:	c6cc                	sw	a1,12(a3)
+
+#ifdef USB_PIN_DPU
+	// This drives USB_PIN_DPU (D- Pull-Up) high, which will tell the host that we are going on-bus.
+	LOCAL_EXP(GPIO,USB_PORT)->BSHR = 1<<USB_PIN_DPU;
+ 1ee:	02000693          	li	a3,32
+ 1f2:	cb14                	sw	a3,16(a4)
+ * @param   IRQn - Interrupt Numbers
+ * @return  none
+ */
+RV_STATIC_INLINE void NVIC_EnableIRQ(IRQn_Type IRQn)
+{
+	NVIC->IENR[((uint32_t)(IRQn) >> 5)] = (1 << ((uint32_t)(IRQn) & 0x1F));
+ 1f4:	e000e737          	lui	a4,0xe000e
+ 1f8:	001006b7          	lui	a3,0x100
+ 1fc:	10d72023          	sw	a3,256(a4) # e000e100 <__global_pointer$+0xc000d900>
+	usb_setup();
+	
+	// Enable GPIOC
+    RCC->APB2PCENR |= RCC_APB2Periph_GPIOC;
+ 200:	4e18                	lw	a4,24(a2)
+		( LOCAL_EXP( GPIO, USB_PORT )->CFGLR & 
+ 202:	400117b7          	lui	a5,0x40011
+
+    // GPIO C6 and C7 Push-Pull configuration
+    GPIOC->CFGLR &= ~(0xf<<(4*6));  // Clear configuration bits for PC6
+ 206:	f10006b7          	lui	a3,0xf1000
+    RCC->APB2PCENR |= RCC_APB2Periph_GPIOC;
+ 20a:	01076713          	or	a4,a4,16
+ 20e:	ce18                	sw	a4,24(a2)
+    GPIOC->CFGLR &= ~(0xf<<(4*6));  // Clear configuration bits for PC6
+ 210:	4398                	lw	a4,0(a5)
+ 212:	16fd                	add	a3,a3,-1 # f0ffffff <__global_pointer$+0xd0fff7ff>
+
+	while(1){
+		// Turn on C6, turn off C7
+        GPIOC->BSHR = (1<<6);        // Turn on GPIO C6
+        GPIOC->BSHR = (1<<(16+7));   // Turn off GPIO C7
+        Delay_Ms(200);
+ 214:	00928437          	lui	s0,0x928
+    GPIOC->CFGLR &= ~(0xf<<(4*6));  // Clear configuration bits for PC6
+ 218:	8f75                	and	a4,a4,a3
+ 21a:	c398                	sw	a4,0(a5)
+    GPIOC->CFGLR &= ~(0xf<<(4*7));  // Clear configuration bits for PC7
+ 21c:	4398                	lw	a4,0(a5)
+ 21e:	100006b7          	lui	a3,0x10000
+ 222:	fff68613          	add	a2,a3,-1 # fffffff <rv003usb.c.cec892f7+0xfffdae9>
+ 226:	8f71                	and	a4,a4,a2
+ 228:	c398                	sw	a4,0(a5)
+    GPIOC->CFGLR |= (GPIO_Speed_10MHz | GPIO_CNF_OUT_PP)<<(4*6);  // Set PC6 as output, push-pull, 10MHz
+ 22a:	4398                	lw	a4,0(a5)
+ 22c:	01000637          	lui	a2,0x1000
+        Delay_Ms(200);
+ 230:	c0040413          	add	s0,s0,-1024 # 927c00 <rv003usb.c.cec892f7+0x9256ea>
+    GPIOC->CFGLR |= (GPIO_Speed_10MHz | GPIO_CNF_OUT_PP)<<(4*6);  // Set PC6 as output, push-pull, 10MHz
+ 234:	8f51                	or	a4,a4,a2
+ 236:	c398                	sw	a4,0(a5)
+    GPIOC->CFGLR |= (GPIO_Speed_10MHz | GPIO_CNF_OUT_PP)<<(4*7);  // Set PC7 as output, push-pull, 10MHz
+ 238:	4398                	lw	a4,0(a5)
+ 23a:	8f55                	or	a4,a4,a3
+ 23c:	c398                	sw	a4,0(a5)
+        GPIOC->BSHR = (1<<6);        // Turn on GPIO C6
+ 23e:	400114b7          	lui	s1,0x40011
+ 242:	04000793          	li	a5,64
+ 246:	c89c                	sw	a5,16(s1)
+        GPIOC->BSHR = (1<<(16+7));   // Turn off GPIO C7
+ 248:	008007b7          	lui	a5,0x800
+ 24c:	c89c                	sw	a5,16(s1)
+        Delay_Ms(200);
+ 24e:	8522                	mv	a0,s0
+ 250:	3d81                	jal	a0 <DelaySysTick>
+
+        // Turn off C6, turn on C7
+        GPIOC->BSHR = (1<<(16+6));   // Turn off GPIO C6
+ 252:	004007b7          	lui	a5,0x400
+ 256:	c89c                	sw	a5,16(s1)
+        GPIOC->BSHR = (1<<7);        // Turn on GPIO C7
+ 258:	08000793          	li	a5,128
+ 25c:	c89c                	sw	a5,16(s1)
+        Delay_Ms(200);
+ 25e:	8522                	mv	a0,s0
+ 260:	3581                	jal	a0 <DelaySysTick>
+	while(1){
+ 262:	bff1                	j	23e <main+0x9c>
+
+00000264 <usb_pid_handle_in>:
+	ist->current_endpoint = endp;
+	struct usb_endpoint * e = &ist->eps[endp];
+
+	int tosend = 0;
+	uint8_t * sendnow;
+	int sendtok = e->toggle_in?0b01001011:0b11000011;
+ 264:	00561793          	sll	a5,a2,0x5
+ 268:	00f706b3          	add	a3,a4,a5
+	ist->current_endpoint = endp;
+ 26c:	c310                	sw	a2,0(a4)
+	int sendtok = e->toggle_in?0b01001011:0b11000011;
+ 26e:	528c                	lw	a1,32(a3)
+ 270:	04b00693          	li	a3,75
+ 274:	e199                	bnez	a1,27a <usb_pid_handle_in+0x16>
+ 276:	0c300693          	li	a3,195
+
+#if RV003USB_HANDLE_IN_REQUEST
+	if( e->custom || endp )
+ 27a:	97ba                	add	a5,a5,a4
+ 27c:	579c                	lw	a5,40(a5)
+ 27e:	8fd1                	or	a5,a5,a2
+ 280:	1a078c63          	beqz	a5,438 <usb_pid_handle_in+0x1d4>
+		default: return 0x00;  // Unsupported characters
+	}
+}
+
+void usb_handle_user_in_request(struct usb_endpoint *e, uint8_t *scratchpad, int endp, uint32_t sendtok, struct rv003usb_internal *ist) {
+	if (endp == 2) {
+ 284:	4789                	li	a5,2
+ 286:	1cf61063          	bne	a2,a5,446 <usb_pid_handle_in+0x1e2>
+		static int delay_counter = 0;  // Counter for the delay
+		static int delay_mode = 0;  // Enable delay mode to pause typing
+		int length = sizeof(payload) - 1;  // Exclude null terminator
+
+		// Simulate a delay of ~1 second (assuming the function is called frequently)
+		if (delay_counter < 225) {  // Adjust this value as per call frequency (~1 second)
+ 28a:	8101a783          	lw	a5,-2032(gp) # 20000010 <delay_counter.4>
+ 28e:	0e000613          	li	a2,224
+ 292:	00f64663          	blt	a2,a5,29e <usb_pid_handle_in+0x3a>
+			delay_counter++;
+ 296:	0785                	add	a5,a5,1 # 400001 <rv003usb.c.cec892f7+0x3fdaeb>
+ 298:	80f1a823          	sw	a5,-2032(gp) # 20000010 <delay_counter.4>
+ 29c:	8082                	ret
+			return;  // Exit the function until the delay is over
+		}
+
+		if(delay_mode == 1){
+ 29e:	80c1a783          	lw	a5,-2036(gp) # 2000000c <delay_mode.3>
+{
+ 2a2:	1151                	add	sp,sp,-12
+ 2a4:	c026                	sw	s1,0(sp)
+ 2a6:	c406                	sw	ra,8(sp)
+ 2a8:	c222                	sw	s0,4(sp)
+ 2aa:	4305                	li	t1,1
+ 2ac:	02679363          	bne	a5,t1,2d2 <usb_pid_handle_in+0x6e>
+			Delay_Ms(500);
+ 2b0:	016e3537          	lui	a0,0x16e3
+ 2b4:	60050513          	add	a0,a0,1536 # 16e3600 <rv003usb.c.cec892f7+0x16e10ea>
+ 2b8:	33e5                	jal	a0 <DelaySysTick>
+			delay_mode = 0;
+			i++;
+ 2ba:	8081a783          	lw	a5,-2040(gp) # 20000008 <i.2>
+			delay_mode = 0;
+ 2be:	8001a623          	sw	zero,-2036(gp) # 2000000c <delay_mode.3>
+			i++;
+ 2c2:	0785                	add	a5,a5,1
+ 2c4:	80f1a423          	sw	a5,-2040(gp) # 20000008 <i.2>
+	}
+	else
+	{
+		usb_send_data( sendnow, tosend, 0, sendtok );
+	}
+}
+ 2c8:	40a2                	lw	ra,8(sp)
+ 2ca:	4412                	lw	s0,4(sp)
+ 2cc:	4482                	lw	s1,0(sp)
+ 2ce:	0131                	add	sp,sp,12
+ 2d0:	8082                	ret
+			return;
+		}
+
+		// Send 8-byte keyboard report
+		usb_send_data(tsajoystick, 8, 0, sendtok);
+ 2d2:	20000437          	lui	s0,0x20000
+ 2d6:	4601                	li	a2,0
+ 2d8:	45a1                	li	a1,8
+ 2da:	00040513          	mv	a0,s0
+ 2de:	29e1                	jal	7b6 <usb_send_data>
+
+		// If all characters are sent, stop or reset
+		if (i < length) {
+ 2e0:	8081a683          	lw	a3,-2040(gp) # 20000008 <i.2>
+ 2e4:	47d5                	li	a5,21
+ 2e6:	14d7c263          	blt	a5,a3,42a <usb_pid_handle_in+0x1c6>
+			if (payload[i] == '\t') {
+ 2ea:	6785                	lui	a5,0x1
+ 2ec:	ad878793          	add	a5,a5,-1320 # ad8 <payload.0>
+ 2f0:	97b6                	add	a5,a5,a3
+ 2f2:	0007c783          	lbu	a5,0(a5)
+ 2f6:	4625                	li	a2,9
+ 2f8:	4305                	li	t1,1
+ 2fa:	00c79563          	bne	a5,a2,304 <usb_pid_handle_in+0xa0>
+                delay_mode = 1;  // Enter delay mode
+ 2fe:	8061a623          	sw	t1,-2036(gp) # 2000000c <delay_mode.3>
+                return;  // Exit the function until delay is over
+ 302:	b7d9                	j	2c8 <usb_pid_handle_in+0x64>
+	if (c >= 'A' && c <= 'Z') {
+ 304:	fbf78713          	add	a4,a5,-65
+ 308:	0ff77713          	zext.b	a4,a4
+ 30c:	45e5                	li	a1,25
+ 30e:	02e5e163          	bltu	a1,a4,330 <usb_pid_handle_in+0xcc>
+		return c - 'A' + 0x04;  // HID keycodes for 'A' to 'Z'
+ 312:	fc378793          	add	a5,a5,-61
+ 316:	0ff7f793          	zext.b	a5,a5
+		*modifier = 0x02;  // Left Shift
+ 31a:	4709                	li	a4,2
+            }
+
+			// Get the modifier and keycode for the current character
+			uint8_t modifier = 0x00;
+			tsajoystick[4] = ascii_to_hid(payload[i], &modifier);
+ 31c:	00040413          	mv	s0,s0
+			tsajoystick[0] = modifier;  // Set modifier byte (Shift if needed)
+			i++;
+ 320:	0685                	add	a3,a3,1
+			tsajoystick[4] = ascii_to_hid(payload[i], &modifier);
+ 322:	00f40223          	sb	a5,4(s0) # 20000004 <tsajoystick.1+0x4>
+			tsajoystick[0] = modifier;  // Set modifier byte (Shift if needed)
+ 326:	00e40023          	sb	a4,0(s0)
+			i++;
+ 32a:	80d1a423          	sw	a3,-2040(gp) # 20000008 <i.2>
+ 32e:	bf69                	j	2c8 <usb_pid_handle_in+0x64>
+	if (c >= 'a' && c <= 'z') {
+ 330:	f9f78713          	add	a4,a5,-97
+ 334:	0ff77713          	zext.b	a4,a4
+ 338:	00e5e863          	bltu	a1,a4,348 <usb_pid_handle_in+0xe4>
+		return c - 'a' + 0x04;  // HID keycodes for 'a' to 'z'
+ 33c:	fa378793          	add	a5,a5,-93
+		return c - '0' + 0x1E;  // HID keycodes for '0' to '9'
+ 340:	0ff7f793          	zext.b	a5,a5
+	*modifier = 0x00;  // Reset modifier byte
+ 344:	4701                	li	a4,0
+		return c - '0' + 0x1E;  // HID keycodes for '0' to '9'
+ 346:	bfd9                	j	31c <usb_pid_handle_in+0xb8>
+	if (c >= '0' && c <= '9') {
+ 348:	fd078713          	add	a4,a5,-48
+ 34c:	0ff77713          	zext.b	a4,a4
+ 350:	00e66463          	bltu	a2,a4,358 <usb_pid_handle_in+0xf4>
+		return c - '0' + 0x1E;  // HID keycodes for '0' to '9'
+ 354:	17b9                	add	a5,a5,-18
+ 356:	b7ed                	j	340 <usb_pid_handle_in+0xdc>
+	switch (c) {
+ 358:	02f00713          	li	a4,47
+ 35c:	02f76863          	bltu	a4,a5,38c <usb_pid_handle_in+0x128>
+ 360:	4725                	li	a4,9
+ 362:	0cf77163          	bgeu	a4,a5,424 <usb_pid_handle_in+0x1c0>
+ 366:	ff678713          	add	a4,a5,-10
+ 36a:	0ff77713          	zext.b	a4,a4
+ 36e:	02500613          	li	a2,37
+ 372:	0ae66963          	bltu	a2,a4,424 <usb_pid_handle_in+0x1c0>
+ 376:	6605                	lui	a2,0x1
+ 378:	070a                	sll	a4,a4,0x2
+ 37a:	91c60613          	add	a2,a2,-1764 # 91c <string0+0x4>
+ 37e:	9732                	add	a4,a4,a2
+ 380:	4318                	lw	a4,0(a4)
+ 382:	8702                	jr	a4
+	*modifier = 0x00;  // Reset modifier byte
+ 384:	4701                	li	a4,0
+		case '.': return 0x37;  // Period
+ 386:	03700793          	li	a5,55
+ 38a:	bf49                	j	31c <usb_pid_handle_in+0xb8>
+	switch (c) {
+ 38c:	05e00713          	li	a4,94
+ 390:	08e78263          	beq	a5,a4,414 <usb_pid_handle_in+0x1b0>
+ 394:	07e00713          	li	a4,126
+ 398:	08e78263          	beq	a5,a4,41c <usb_pid_handle_in+0x1b8>
+ 39c:	04000713          	li	a4,64
+ 3a0:	08e79263          	bne	a5,a4,424 <usb_pid_handle_in+0x1c0>
+		case '@': *modifier = 0x02; return 0x1F;  // At symbol (Shift + 2)
+ 3a4:	4709                	li	a4,2
+ 3a6:	47fd                	li	a5,31
+ 3a8:	bf95                	j	31c <usb_pid_handle_in+0xb8>
+	*modifier = 0x00;  // Reset modifier byte
+ 3aa:	4701                	li	a4,0
+		case ',': return 0x36;  // Comma
+ 3ac:	03600793          	li	a5,54
+ 3b0:	b7b5                	j	31c <usb_pid_handle_in+0xb8>
+	*modifier = 0x00;  // Reset modifier byte
+ 3b2:	4701                	li	a4,0
+        case '/': return 0x38;  // Slash
+ 3b4:	03800793          	li	a5,56
+ 3b8:	b795                	j	31c <usb_pid_handle_in+0xb8>
+	*modifier = 0x00;  // Reset modifier byte
+ 3ba:	4701                	li	a4,0
+		case '\'': return 0x34;  // Single quote
+ 3bc:	03400793          	li	a5,52
+ 3c0:	bfb1                	j	31c <usb_pid_handle_in+0xb8>
+		case '!': *modifier = 0x02; return 0x1E;  // Exclamation mark (Shift + 1)
+ 3c2:	4709                	li	a4,2
+ 3c4:	47f9                	li	a5,30
+ 3c6:	bf99                	j	31c <usb_pid_handle_in+0xb8>
+		case '#': *modifier = 0x02; return 0x20;  // Hash symbol (Shift + 3)
+ 3c8:	4709                	li	a4,2
+ 3ca:	02000793          	li	a5,32
+ 3ce:	b7b9                	j	31c <usb_pid_handle_in+0xb8>
+		case '$': *modifier = 0x02; return 0x21;  // Dollar sign (Shift + 4)
+ 3d0:	4709                	li	a4,2
+ 3d2:	02100793          	li	a5,33
+ 3d6:	b799                	j	31c <usb_pid_handle_in+0xb8>
+		case '%': *modifier = 0x02; return 0x22;  // Percent sign (Shift + 5)
+ 3d8:	4709                	li	a4,2
+ 3da:	02200793          	li	a5,34
+ 3de:	bf3d                	j	31c <usb_pid_handle_in+0xb8>
+		case '&': *modifier = 0x02; return 0x24;  // Ampersand (Shift + 7)
+ 3e0:	4709                	li	a4,2
+ 3e2:	02400793          	li	a5,36
+ 3e6:	bf1d                	j	31c <usb_pid_handle_in+0xb8>
+		case '*': *modifier = 0x02; return 0x25;  // Asterisk (Shift + 8)
+ 3e8:	4709                	li	a4,2
+ 3ea:	02500793          	li	a5,37
+ 3ee:	b73d                	j	31c <usb_pid_handle_in+0xb8>
+		case '(': *modifier = 0x02; return 0x26;  // Left parenthesis (Shift + 9)
+ 3f0:	4709                	li	a4,2
+ 3f2:	02600793          	li	a5,38
+ 3f6:	b71d                	j	31c <usb_pid_handle_in+0xb8>
+		case ')': *modifier = 0x02; return 0x27;  // Right parenthesis (Shift + 0)
+ 3f8:	4709                	li	a4,2
+ 3fa:	02700793          	li	a5,39
+ 3fe:	bf39                	j	31c <usb_pid_handle_in+0xb8>
+	*modifier = 0x00;  // Reset modifier byte
+ 400:	4701                	li	a4,0
+		case '\n': return 0x28;  // Enter
+ 402:	02800793          	li	a5,40
+ 406:	bf19                	j	31c <usb_pid_handle_in+0xb8>
+		case '\r': *modifier = 0x08; return 0x2C; // Left GUI + Space
+ 408:	4721                	li	a4,8
+	switch (c) {
+ 40a:	02c00793          	li	a5,44
+ 40e:	b739                	j	31c <usb_pid_handle_in+0xb8>
+ 410:	4701                	li	a4,0
+ 412:	bfe5                	j	40a <usb_pid_handle_in+0x1a6>
+		case '^': *modifier = 0x02; return 0x23;  // Caret (Shift + 6)
+ 414:	4709                	li	a4,2
+ 416:	02300793          	li	a5,35
+ 41a:	b709                	j	31c <usb_pid_handle_in+0xb8>
+		case '~': *modifier = 0x02; return 0x35;  // Tilde
+ 41c:	4709                	li	a4,2
+ 41e:	03500793          	li	a5,53
+ 422:	bded                	j	31c <usb_pid_handle_in+0xb8>
+	*modifier = 0x00;  // Reset modifier byte
+ 424:	4701                	li	a4,0
+		default: return 0x00;  // Unsupported characters
+ 426:	4781                	li	a5,0
+ 428:	bdd5                	j	31c <usb_pid_handle_in+0xb8>
+		} else {
+			tsajoystick[4] = 0x00;  // No key pressed after message is sent
+ 42a:	00040413          	mv	s0,s0
+ 42e:	00040223          	sb	zero,4(s0)
+			tsajoystick[0] = 0x00;  // Reset modifiers
+ 432:	00040023          	sb	zero,0(s0)
+ 436:	bd49                	j	2c8 <usb_pid_handle_in+0x64>
+	int offset = (e->count)<<3;
+ 438:	4f5c                	lw	a5,28(a4)
+	tosend = (int)e->max_len - offset;
+ 43a:	574c                	lw	a1,44(a4)
+	uint8_t * tsend = e->opaque;
+ 43c:	5f08                	lw	a0,56(a4)
+	int offset = (e->count)<<3;
+ 43e:	078e                	sll	a5,a5,0x3
+	tosend = (int)e->max_len - offset;
+ 440:	8d9d                	sub	a1,a1,a5
+	if( tosend <= 0 )
+ 442:	00b04463          	bgtz	a1,44a <usb_pid_handle_in+0x1e6>
+		usb_send_empty( sendtok );
+ 446:	8536                	mv	a0,a3
+ 448:	a685                	j	7a8 <usb_send_empty>
+	if( tosend > ENDPOINT0_SIZE ) tosend = ENDPOINT0_SIZE;
+ 44a:	4721                	li	a4,8
+ 44c:	00b75363          	bge	a4,a1,452 <usb_pid_handle_in+0x1ee>
+ 450:	45a1                	li	a1,8
+		usb_send_data( sendnow, tosend, 0, sendtok );
+ 452:	4601                	li	a2,0
+ 454:	953e                	add	a0,a0,a5
+ 456:	a685                	j	7b6 <usb_send_data>
+
+00000458 <usb_pid_handle_data>:
+}
+
+void usb_pid_handle_data( uint32_t this_token, uint8_t * data, uint32_t which_data, uint32_t length, struct rv003usb_internal * ist )
+{
+	//Received data from host.
+	int epno = ist->current_endpoint;
+ 458:	431c                	lw	a5,0(a4)
+
+	length -= 3;
+	uint8_t * data_in = __builtin_assume_aligned( data, 4 );
+
+	// Already received this packet.
+	if( e->toggle_out != which_data )
+ 45a:	0796                	sll	a5,a5,0x5
+ 45c:	97ba                	add	a5,a5,a4
+ 45e:	53d4                	lw	a3,36(a5)
+ 460:	06c69a63          	bne	a3,a2,4d4 <usb_pid_handle_data+0x7c>
+	{
+		goto just_ack;
+	}
+
+	e->toggle_out = !e->toggle_out;
+ 464:	0016b693          	seqz	a3,a3
+ 468:	d3d4                	sw	a3,36(a5)
+#endif
+	}
+	else
+#endif
+
+	if( ist->setup_request )
+ 46a:	4714                	lw	a3,8(a4)
+ 46c:	c6a5                	beqz	a3,4d4 <usb_pid_handle_data+0x7c>
+		}
+#endif
+
+		struct usb_urb * s = __builtin_assume_aligned( (struct usb_urb *)(data_in), 4 );
+
+		uint32_t wvi = s->lValueLSBIndexMSB;
+ 46e:	0045d683          	lhu	a3,4(a1) # 388004 <rv003usb.c.cec892f7+0x385aee>
+ 472:	0025d603          	lhu	a2,2(a1)
+		uint32_t wLength = s->wLength;
+ 476:	0065d503          	lhu	a0,6(a1)
+		uint32_t wvi = s->lValueLSBIndexMSB;
+ 47a:	06c2                	sll	a3,a3,0x10
+ 47c:	8ed1                	or	a3,a3,a2
+		//int bRequest = s->wRequestTypeLSBRequestMSB >> 8;
+
+		// We shift down because we don't care if USB_RECIP_INTERFACE is set or not.
+		// Otherwise we have to write extra code to handle each case if it's set or
+		// not set, but in general, there's never a situation where we really care.
+		uint32_t reqShl = s->wRequestTypeLSBRequestMSB >> 1;
+ 47e:	0005d603          	lhu	a2,0(a1)
+		e->count = 0;
+ 482:	0007ae23          	sw	zero,28(a5)
+		e->opaque = 0;
+ 486:	0207ac23          	sw	zero,56(a5)
+		e->custom = 0;
+ 48a:	0207a423          	sw	zero,40(a5)
+		e->max_len = 0;
+ 48e:	0207a623          	sw	zero,44(a5)
+		ist->setup_request = 0;
+ 492:	00072423          	sw	zero,8(a4)
+		uint32_t reqShl = s->wRequestTypeLSBRequestMSB >> 1;
+ 496:	8205                	srl	a2,a2,0x1
+			// Class request (Will be writing)  This is hid_send_feature_report
+			usb_handle_hid_set_report_start( e, wLength, wvi );
+		}
+		else
+#endif
+		if( reqShl == (0x0680>>1) ) // GET_DESCRIPTOR = 6 (msb)
+ 498:	34000593          	li	a1,832
+ 49c:	04b61263          	bne	a2,a1,4e0 <usb_pid_handle_data+0x88>
+ 4a0:	6705                	lui	a4,0x1
+ 4a2:	a7870713          	add	a4,a4,-1416 # a78 <descriptor_list>
+ 4a6:	06070593          	add	a1,a4,96
+				if( dl->lIndexValue == wvi )
+				{
+					e->opaque = (uint8_t*)dl->addr;
+					uint16_t swLen = wLength;
+					uint16_t elLen = dl->length;
+					e->max_len = (swLen < elLen)?swLen:elLen;
+ 4aa:	832a                	mv	t1,a0
+				if( dl->lIndexValue == wvi )
+ 4ac:	4310                	lw	a2,0(a4)
+ 4ae:	02d61063          	bne	a2,a3,4ce <usb_pid_handle_data+0x76>
+					e->opaque = (uint8_t*)dl->addr;
+ 4b2:	4350                	lw	a2,4(a4)
+ 4b4:	df90                	sw	a2,56(a5)
+					uint16_t elLen = dl->length;
+ 4b6:	00874603          	lbu	a2,8(a4)
+					e->max_len = (swLen < elLen)?swLen:elLen;
+ 4ba:	01061293          	sll	t0,a2,0x10
+ 4be:	0102d293          	srl	t0,t0,0x10
+ 4c2:	00557363          	bgeu	a0,t0,4c8 <usb_pid_handle_data+0x70>
+ 4c6:	861a                	mv	a2,t1
+ 4c8:	0642                	sll	a2,a2,0x10
+ 4ca:	8241                	srl	a2,a2,0x10
+ 4cc:	d7d0                	sw	a2,44(a5)
+			for( i = 0; i < DESCRIPTOR_LIST_ENTRIES; i++ )
+ 4ce:	0731                	add	a4,a4,12
+ 4d0:	fcb71ee3          	bne	a4,a1,4ac <usb_pid_handle_data+0x54>
+		}
+	}
+just_ack:
+	{
+		//Got the right data.  Acknowledge.
+		usb_send_data( 0, 0, 2, 0xD2 ); // Send ACK
+ 4d4:	0d200693          	li	a3,210
+ 4d8:	4609                	li	a2,2
+ 4da:	4581                	li	a1,0
+ 4dc:	4501                	li	a0,0
+ 4de:	ace1                	j	7b6 <usb_send_data>
+		else if( reqShl == (0x0500>>1) ) // SET_ADDRESS = 0x05
+ 4e0:	28000793          	li	a5,640
+ 4e4:	fef618e3          	bne	a2,a5,4d4 <usb_pid_handle_data+0x7c>
+			ist->my_address = wvi;
+ 4e8:	c354                	sw	a3,4(a4)
+ 4ea:	b7ed                	j	4d4 <usb_pid_handle_data+0x7c>
+
+000004ec <EXTI7_0_IRQHandler>:
+
+.section .text.vector_handler
+.global EXTI7_0_IRQHandler
+.balign 4
+EXTI7_0_IRQHandler:
+	addi	sp,sp,-80
+ 4ec:	715d                	add	sp,sp,-80
+	sw	a0, 0(sp)
+ 4ee:	c02a                	sw	a0,0(sp)
+	sw	a5, 20(sp)
+ 4f0:	ca3e                	sw	a5,20(sp)
+	la a5, USB_GPIO_BASE
+ 4f2:	400117b7          	lui	a5,0x40011
+ 4f6:	40078793          	add	a5,a5,1024 # 40011400 <__global_pointer$+0x20010c00>
+	c.lw a0, INDR_OFFSET(a5) // MUST check SE0 immediately.
+ 4fa:	4788                	lw	a0,8(a5)
+	c.andi a0, USB_DMASK
+ 4fc:	8961                	and	a0,a0,24
+
+	sw	a1, 4(sp)
+ 4fe:	c22e                	sw	a1,4(sp)
+	sw	a2, 8(sp)
+ 500:	c432                	sw	a2,8(sp)
+	sw	a3, 12(sp)
+ 502:	c636                	sw	a3,12(sp)
+	sw	a4, 16(sp)
+ 504:	c83a                	sw	a4,16(sp)
+	sw	s1, 28(sp)
+ 506:	ce26                	sw	s1,28(sp)
+
+	SAVE_DEBUG_MARKER( 48 );
+ 508:	d812                	sw	tp,48(sp)
+	DEBUG_TICK_SETUP
+ 50a:	40013237          	lui	tp,0x40013
+ 50e:	c5820213          	add	tp,tp,-936 # 40012c58 <__global_pointer$+0x20012458>
+	c.lw a1, INDR_OFFSET(a5)
+ 512:	478c                	lw	a1,8(a5)
+	c.andi a1, USB_DMASK;
+ 514:	89e1                	and	a1,a1,24
+
+	// Finish jump to se0
+	c.beqz a0, handle_se0_keepalive
+ 516:	22050963          	beqz	a0,748 <handle_se0_keepalive>
+
+	c.lw a0, INDR_OFFSET(a5); c.andi a0, USB_DMASK; bne a0, a1, syncout
+ 51a:	4788                	lw	a0,8(a5)
+ 51c:	8961                	and	a0,a0,24
+ 51e:	02b51b63          	bne	a0,a1,554 <syncout>
+	c.lw a0, INDR_OFFSET(a5); c.andi a0, USB_DMASK; bne a0, a1, syncout
+ 522:	4788                	lw	a0,8(a5)
+ 524:	8961                	and	a0,a0,24
+ 526:	02b51763          	bne	a0,a1,554 <syncout>
+	c.lw a0, INDR_OFFSET(a5); c.andi a0, USB_DMASK; bne a0, a1, syncout
+ 52a:	4788                	lw	a0,8(a5)
+ 52c:	8961                	and	a0,a0,24
+ 52e:	02b51363          	bne	a0,a1,554 <syncout>
+	c.lw a0, INDR_OFFSET(a5); c.andi a0, USB_DMASK; bne a0, a1, syncout
+ 532:	4788                	lw	a0,8(a5)
+ 534:	8961                	and	a0,a0,24
+ 536:	00b51f63          	bne	a0,a1,554 <syncout>
+	c.lw a0, INDR_OFFSET(a5); c.andi a0, USB_DMASK; bne a0, a1, syncout
+ 53a:	4788                	lw	a0,8(a5)
+ 53c:	8961                	and	a0,a0,24
+ 53e:	00b51b63          	bne	a0,a1,554 <syncout>
+	c.lw a0, INDR_OFFSET(a5); c.andi a0, USB_DMASK; bne a0, a1, syncout
+ 542:	4788                	lw	a0,8(a5)
+ 544:	8961                	and	a0,a0,24
+ 546:	00b51763          	bne	a0,a1,554 <syncout>
+	c.lw a0, INDR_OFFSET(a5); c.andi a0, USB_DMASK; bne a0, a1, syncout
+ 54a:	4788                	lw	a0,8(a5)
+ 54c:	8961                	and	a0,a0,24
+ 54e:	00b51363          	bne	a0,a1,554 <syncout>
+	c.j syncout
+ 552:	a009                	j	554 <syncout>
+
+00000554 <syncout>:
+syncout:
+	sw	s0, 24(sp)
+ 554:	cc22                	sw	s0,24(sp)
+	li a2, 0
+ 556:	4601                	li	a2,0
+	sw	t0, 32(sp)  // XXX NOTE: This is actually unused register - remove some day?
+ 558:	d016                	sw	t0,32(sp)
+	sw	t1, 36(sp)
+ 55a:	d21a                	sw	t1,36(sp)
+
+0000055c <preamble_loop>:
+	
+	// This is actually somewhat late.
+	// The preamble loop should try to make it earlier.
+.balign 4
+preamble_loop:
+	DEBUG_TICK_MARK
+ 55c:	00022023          	sw	zero,0(tp) # 0 <InterruptVector>
+	c.lw a0, INDR_OFFSET(a5);
+ 560:	4788                	lw	a0,8(a5)
+	c.andi a0, USB_DMASK;
+ 562:	8961                	and	a0,a0,24
+	c.beqz a0, done_usb_message // SE0 here?
+ 564:	18050163          	beqz	a0,6e6 <done_usb_message>
+	c.xor a0, a1;
+ 568:	8d2d                	xor	a0,a0,a1
+	c.xor a1, a0; // Recover a1.
+ 56a:	8da9                	xor	a1,a1,a0
+	j 1f; 1: // 4 cycles?
+ 56c:	a009                	j	56e <preamble_loop+0x12>
+	c.beqz a0, done_preamble
+ 56e:	c909                	beqz	a0,580 <done_preamble>
+	j 1f; 1: // 4 cycles?
+ 570:	a009                	j	572 <preamble_loop+0x16>
+	c.lw s0, INDR_OFFSET(a5);
+ 572:	4780                	lw	s0,8(a5)
+	c.andi s0, USB_DMASK;
+ 574:	8861                	and	s0,s0,24
+	c.xor s0, a1
+ 576:	8c2d                	xor	s0,s0,a1
+
+	// TRICKY: This helps retime the USB sync.
+	// If s0 is nonzero, then it's changed (we're going too slow)
+	c.bnez s0, 2f;  // This code takes 6 cycles or 8 cycles, depending.
+ 578:	e011                	bnez	s0,57c <preamble_loop+0x20>
+	c.j 1f; 1:
+ 57a:	a009                	j	57c <preamble_loop+0x20>
+	2:
+	j preamble_loop // 4 cycles
+ 57c:	b7c5                	j	55c <preamble_loop>
+ 57e:	0001                	nop
+
+00000580 <done_preamble>:
+.balign 4
+done_preamble:
+	sw  t2, 40(sp)
+ 580:	d41e                	sw	t2,40(sp)
+	sw  ra, 52(sp)
+ 582:	da06                	sw	ra,52(sp)
+	// 16-byte temporary buffer at 56+sp
+
+	// XXX TODO: Do one byte here to determine the header byte and from that set the CRC.
+	c.li s1, 8
+ 584:	44a1                	li	s1,8
+
+	// This is the first bit that matters.
+	c.li s0, 6 // 1 runs.
+ 586:	4419                	li	s0,6
+
+	c.nop; 
+ 588:	0001                	nop
+ 58a:	0001                	nop
+
+0000058c <packet_type_loop>:
+packet_type_loop:
+	// Up here to delay loop a tad, and we need to execute them anyway.
+	// TODO: Maybe we could further sync bits here instead of take up time?
+	// I.e. can we do what we're doing above, here, and take less time, but sync
+	// up when possible.
+	li a3, 0xffff // Starting CRC of 0.   Because USB doesn't respect reverse CRCing.
+ 58c:	66c1                	lui	a3,0x10
+ 58e:	16fd                	add	a3,a3,-1 # ffff <rv003usb.c.cec892f7+0xdae9>
+	li a4, 0xa001
+ 590:	6729                	lui	a4,0xa
+ 592:	0705                	add	a4,a4,1 # a001 <rv003usb.c.cec892f7+0x7aeb>
+	addi  t2, sp, DATA_PTR_OFFSET //rv003usb_internal_data
+ 594:	03f10393          	add	t2,sp,63
+	la  t0, 0x80
+ 598:	08000293          	li	t0,128
+	c.nop
+ 59c:	0001                	nop
+ 59e:	0001                	nop
+
+	DEBUG_TICK_MARK
+ 5a0:	00022023          	sw	zero,0(tp) # 0 <InterruptVector>
+	c.lw a0, INDR_OFFSET(a5);
+ 5a4:	4788                	lw	a0,8(a5)
+	c.andi a0, USB_DMASK;
+ 5a6:	8961                	and	a0,a0,24
+	c.beqz a0, done_usb_message // Not se0 complete, that can't happen here and be valid.
+ 5a8:	12050f63          	beqz	a0,6e6 <done_usb_message>
+	c.xor a0, a1;
+ 5ac:	8d2d                	xor	a0,a0,a1
+	c.xor a1, a0; // Recover a1, for next cycle
+ 5ae:	8da9                	xor	a1,a1,a0
+
+	// No CRC for the header.
+	//c.srli a0, USB_PIN_DP
+	//c.addi a0, 1 // 00 -> 1, 11 -> 100
+	//c.andi a0, 1 // If 1, 1 if 0, 0
+        c.nop
+ 5b0:	0001                	nop
+        seqz a0, a0
+ 5b2:	00153513          	seqz	a0,a0
+
+	// Write header into byte in reverse order, because we can.
+	c.slli a2, 1
+ 5b6:	0606                	sll	a2,a2,0x1
+	c.or a2, a0
+ 5b8:	8e49                	or	a2,a2,a0
+
+	// Handle bit stuffing rules.
+	c.addi a0, -1 // 0->0xffffffff 1->0
+ 5ba:	157d                	add	a0,a0,-1
+	c.or s0, a0
+ 5bc:	8c49                	or	s0,s0,a0
+	c.andi s0, 7
+ 5be:	881d                	and	s0,s0,7
+	c.addi s0, -1
+ 5c0:	147d                	add	s0,s0,-1
+	c.addi s1, -1
+ 5c2:	14fd                	add	s1,s1,-1 # 40010fff <__global_pointer$+0x200107ff>
+	c.bnez s1, packet_type_loop
+ 5c4:	f4e1                	bnez	s1,58c <packet_type_loop>
+///////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////	
+
+	// XXX Here, figure out CRC polynomial.
+
+	li s1, (USB_BUFFER_SIZE*8) // # of bits we culd read.
+ 5c6:	06000493          	li	s1,96
+	//
+	// When we get here, packet type is loaded in A2.
+	// If packet type is 0xXX01 or 0xXX11
+	// the LSBs are the inverted packet type.
+	// we can branch off of bit 2.
+	andi a0, a2, 0x0c
+ 5ca:	00c67513          	and	a0,a2,12
+
+	// if a0 is 1 then it's DATA (full CRC) otherwise,
+	// (0) for setup or PARTIAL CRC.
+	// Careful:  This has to take a constant amount of time either way the branch goes.
+	c.beqz a0, data_crc
+ 5ce:	c509                	beqz	a0,5d8 <data_crc>
+	c.li a4, 0x14	
+ 5d0:	4751                	li	a4,20
+	c.li a3, 0x1e
+ 5d2:	46f9                	li	a3,30
+ 5d4:	00000013          	.word	0x00000013
+
+000005d8 <data_crc>:
+
+///////////////////////////////////////////////////////////////////////////////////////
+///////////////////////////////////////////////////////////////////////////////////////	
+.balign 4
+is_end_of_byte:
+	HANDLE_EOB_YES
+ 5d8:	00c38023          	sb	a2,0(t2)
+ 5dc:	00138393          	.word	0x00138393
+
+000005e0 <bit_process>:
+	// end-of-byte.
+.balign 4
+bit_process:
+	// Debug blip
+//	c.lw a4, INDR_OFFSET(a5);
+	DEBUG_TICK_MARK
+ 5e0:	00022023          	sw	zero,0(tp) # 0 <InterruptVector>
+	c.lw a0, INDR_OFFSET(a5);
+ 5e4:	4788                	lw	a0,8(a5)
+	c.andi a0, USB_DMASK;
+ 5e6:	8961                	and	a0,a0,24
+	c.xor a0, a1;
+ 5e8:	8d2d                	xor	a0,a0,a1
+#define HANDLE_NEXT_BYTE(is_end_of_byte, jumptype)  \
+	c.addi s1, -1; \
+	andi a0, s1, 7; /* s1 could be really really big */ \
+	c.jumptype a0, is_end_of_byte /* 4 cycles for this section. (Checked) (Sometimes 5)? */ 
+
+	c.beqz a0, handle_one_bit
+ 5ea:	c50d                	beqz	a0,614 <handle_one_bit>
+
+000005ec <handle_zero_bit>:
+handle_zero_bit:
+	c.xor a1, a0; // Recover a1, for next cycle
+ 5ec:	8da9                	xor	a1,a1,a0
+	// TODO: Do we have time to do time fixup here?
+	// Can we resync time here?
+	// If they are different, we need to sloowwww dowwwnnn
+	// There is some free time.  Could do something interesting here!!!
+	// I was thinking we could put the resync code here.
+	c.j 1f; 1:  //Delay 4 cycles.
+ 5ee:	a009                	j	5f0 <handle_zero_bit+0x4>
+
+	c.li s0, 6      // reset runs-of-one.
+ 5f0:	4419                	li	s0,6
+	c.beqz a1, se0_complete
+ 5f2:	c9bd                	beqz	a1,668 <se0_complete>
+
+	// Handle CRC (0 bit)  (From @Domkeykong)
+	slli a0,a3,31 // Put a3s LSB into a0s MSB
+ 5f4:	01f69513          	sll	a0,a3,0x1f
+	c.srai a0,31    // Copy MSB into all other bits
+ 5f8:	857d                	sra	a0,a0,0x1f
+	c.srli a3,1
+ 5fa:	8285                	srl	a3,a3,0x1
+	c.and  a0, a4
+ 5fc:	8d79                	and	a0,a0,a4
+	c.xor  a3, a0
+ 5fe:	8ea9                	xor	a3,a3,a0
+
+	c.srli a2, 1;  // shift a2 down by 1
+ 600:	8205                	srl	a2,a2,0x1
+	HANDLE_NEXT_BYTE(is_end_of_byte, beqz)
+ 602:	14fd                	add	s1,s1,-1
+ 604:	0074f513          	and	a0,s1,7
+ 608:	d961                	beqz	a0,5d8 <data_crc>
+	c.nop
+ 60a:	0001                	nop
+	c.nop
+ 60c:	0001                	nop
+	c.nop
+ 60e:	0001                	nop
+	c.bnez s1, bit_process // + 4 cycles
+ 610:	f8e1                	bnez	s1,5e0 <bit_process>
+	c.j done_usb_message
+ 612:	a8d1                	j	6e6 <done_usb_message>
+
+00000614 <handle_one_bit>:
+
+
+.balign 4
+handle_one_bit:
+	c.addi s0, -1; // Count # of runs of 1 (subtract 1)
+ 614:	147d                	add	s0,s0,-1
+	//HANDLE_CRC (1 bit)
+	andi a0, a3, 1
+ 616:	0016f513          	and	a0,a3,1
+	c.addi a0, -1
+ 61a:	157d                	add	a0,a0,-1
+	c.and a0, a4
+ 61c:	8d79                	and	a0,a0,a4
+	c.srli a3, 1
+ 61e:	8285                	srl	a3,a3,0x1
+	c.xor a3, a0
+ 620:	8ea9                	xor	a3,a3,a0
+
+	c.srli a2, 1;  // shift a2 down by 1
+ 622:	8205                	srl	a2,a2,0x1
+	ori a2, a2, 0x80
+ 624:	08066613          	or	a2,a2,128
+	c.beqz s0, handle_bit_stuff;
+ 628:	c811                	beqz	s0,63c <handle_bit_stuff>
+
+	HANDLE_NEXT_BYTE(is_end_of_byte, beqz)
+ 62a:	14fd                	add	s1,s1,-1
+ 62c:	0074f513          	and	a0,s1,7
+ 630:	d545                	beqz	a0,5d8 <data_crc>
+	c.nop // Need extra delay here because we need more time if it's end-of-byte.
+ 632:	0001                	nop
+	c.nop
+ 634:	0001                	nop
+	c.nop
+ 636:	0001                	nop
+	c.bnez s1, bit_process // + 4 cycles
+ 638:	f4c5                	bnez	s1,5e0 <bit_process>
+	c.j done_usb_message
+ 63a:	a075                	j	6e6 <done_usb_message>
+
+0000063c <handle_bit_stuff>:
+
+handle_bit_stuff:
+	// We want to wait a little bit, then read another byte, and make
+	// sure everything is well, before heading back into the main loop
+	// Debug blip
+	HANDLE_NEXT_BYTE(not_is_end_of_byte_and_bit_stuffed, bnez)
+ 63c:	14fd                	add	s1,s1,-1
+ 63e:	0074f513          	and	a0,s1,7
+ 642:	e509                	bnez	a0,64c <not_is_end_of_byte_and_bit_stuffed>
+	HANDLE_EOB_YES
+ 644:	00c38023          	sb	a2,0(t2)
+ 648:	00138393          	.word	0x00138393
+
+0000064c <not_is_end_of_byte_and_bit_stuffed>:
+
+not_is_end_of_byte_and_bit_stuffed:
+        DEBUG_TICK_MARK
+ 64c:	00022023          	sw	zero,0(tp) # 0 <InterruptVector>
+	c.lw a0, INDR_OFFSET(a5);
+ 650:	4788                	lw	a0,8(a5)
+	c.andi a0, USB_DMASK;
+ 652:	8961                	and	a0,a0,24
+	c.beqz a0, se0_complete
+ 654:	c911                	beqz	a0,668 <se0_complete>
+	c.xor a0, a1;
+ 656:	8d2d                	xor	a0,a0,a1
+	c.xor a1, a0; // Recover a1, for next cycle.
+ 658:	8da9                	xor	a1,a1,a0
+
+	// If A0 is a 0 then that's bad, we just did a bit stuff
+        //   and A0 == 0 means there was no signal transition
+	c.beqz a0, done_usb_message
+ 65a:	c551                	beqz	a0,6e6 <done_usb_message>
+
+        // Reset bit stuff, delay, then continue onto the next actual bit
+	c.li s0, 6;
+ 65c:	4419                	li	s0,6
+
+        c.nop;
+ 65e:	0001                	nop
+	nx6p3delay( 2, a0 )
+ 660:	450d                	li	a0,3
+ 662:	157d                	add	a0,a0,-1
+ 664:	fd7d                	bnez	a0,662 <not_is_end_of_byte_and_bit_stuffed+0x16>
+
+	c.bnez s1, bit_process // + 4 cycles
+ 666:	fcad                	bnez	s1,5e0 <bit_process>
+
+00000668 <se0_complete>:
+
+.balign 4
+se0_complete:
+	// This is triggered when we finished getting a packet.
+	andi a0, s1, 7; // Make sure we received an even number of bytes.
+ 668:	0074f513          	and	a0,s1,7
+	c.bnez a0, done_usb_message
+ 66c:	ed2d                	bnez	a0,6e6 <done_usb_message>
+
+
+	// Special: handle ACKs?
+	// Now we have to decide what we're doing based on the
+	// packet type.
+	addi  a1, sp, DATA_PTR_OFFSET
+ 66e:	03f10593          	add	a1,sp,63
+ 672:	2188                	.short	0x2188
+	XW_C_LBU(a0, a1, 0);	//lbu  a0, 0(a1)
+	c.addi a1, 1
+ 674:	0585                	add	a1,a1,1
+	// 1001 => 10010110 => PID IN
+	// 0001 => 10000111 => PID_OUT
+	// 1101 => 10110100 => SETUP    (OK)
+
+	// a0 contains first 4 bytes.
+	la ra, done_usb_message_in // Common return address for all function calls.
+ 676:	00000097          	auipc	ra,0x0
+ 67a:	07008093          	add	ra,ra,112 # 6e6 <done_usb_message>
+
+	// For ACK don't worry about CRC.
+	addi a5, a0, -0b01001011
+ 67e:	fb550793          	add	a5,a0,-75
+
+	RESTORE_DEBUG_MARKER(48) // restore x4 for whatever in C land.
+ 682:	5242                	lw	tp,48(sp)
+
+	la a4, rv003usb_internal_data
+ 684:	20000717          	auipc	a4,0x20000
+ 688:	99070713          	add	a4,a4,-1648 # 20000014 <rv003usb_internal_data>
+
+	// ACK doesn't need good CRC.
+	c.beqz a5, usb_pid_handle_ack
+ 68c:	c7c9                	beqz	a5,716 <usb_pid_handle_ack>
+
+	// Next, check for tokens.
+	c.bnez a3, crc_for_tokens_would_be_bad_maybe_data
+ 68e:	ea85                	bnez	a3,6be <crc_for_tokens_would_be_bad_maybe_data>
+
+00000690 <may_be_a_token>:
+ 690:	2192                	.short	0x2192
+may_be_a_token:
+	// Our CRC is 0, so we might be a token.
+
+	// Do token-y things.
+	XW_C_LHU( a2, a1, 0 )
+	andi a0, a2, 0x7f // addr
+ 692:	07f67513          	and	a0,a2,127
+	c.srli a2, 7
+ 696:	821d                	srl	a2,a2,0x7
+	c.andi a2, 0xf    // endp
+ 698:	8a3d                	and	a2,a2,15
+	li s0, ENDPOINTS
+ 69a:	440d                	li	s0,3
+	bgeu a2, s0, done_usb_message // Make sure < ENDPOINTS
+ 69c:	04867563          	bgeu	a2,s0,6e6 <done_usb_message>
+	c.beqz a0,  yes_check_tokens
+ 6a0:	c501                	beqz	a0,6a8 <yes_check_tokens>
+ 6a2:	2340                	.short	0x2340
+	// Otherwise, we might have our assigned address.
+	XW_C_LBU(s0, a4, MY_ADDRESS_OFFSET_BYTES);	//	lbu s0, MY_ADDRESS_OFFSET_BYTES(a4)
+	bne s0, a0, done_usb_message // addr != 0 && addr != ours.
+ 6a4:	04a41163          	bne	s0,a0,6e6 <done_usb_message>
+
+000006a8 <yes_check_tokens>:
+yes_check_tokens:
+	addi a5, a5, (0b01001011-0b10000111)
+ 6a8:	fc478793          	add	a5,a5,-60
+	c.beqz a5, usb_pid_handle_out
+ 6ac:	cfc1                	beqz	a5,744 <usb_pid_handle_out>
+	c.addi a5, (0b10000111-0b10010110)
+ 6ae:	17c5                	add	a5,a5,-15
+	c.beqz a5, usb_pid_handle_in
+ 6b0:	00079463          	bnez	a5,6b8 <yes_check_tokens+0x10>
+ 6b4:	bb1ff06f          	j	264 <usb_pid_handle_in>
+	c.addi a5, (0b10010110-0b10110100)
+ 6b8:	1789                	add	a5,a5,-30
+	c.beqz a5, usb_pid_handle_setup
+ 6ba:	cbb5                	beqz	a5,72e <usb_pid_handle_setup>
+
+	c.j done_usb_message_in
+ 6bc:	a02d                	j	6e6 <done_usb_message>
+
+000006be <crc_for_tokens_would_be_bad_maybe_data>:
+
+	// CRC is nonzero. (Good for Data packets)
+crc_for_tokens_would_be_bad_maybe_data:
+	li s0, 0xb001  // UGH: You can't use the CRC16 in reverse :(
+ 6be:	642d                	lui	s0,0xb
+ 6c0:	0405                	add	s0,s0,1 # b001 <rv003usb.c.cec892f7+0x8aeb>
+	c.sub a3, s0
+ 6c2:	8e81                	sub	a3,a3,s0
+	c.bnez a3, done_usb_message_in
+ 6c4:	e28d                	bnez	a3,6e6 <done_usb_message>
+	// Good CRC!!
+	sub a3, t2, a1 //a3 = # of bytes read..
+ 6c6:	40b386b3          	sub	a3,t2,a1
+	c.addi a3, 1
+ 6ca:	0685                	add	a3,a3,1
+	addi a5, a5, (0b01001011-0b11000011)
+ 6cc:	f8878793          	add	a5,a5,-120
+	c.li a2, 0
+ 6d0:	4601                	li	a2,0
+	c.beqz a5, usb_pid_handle_data
+ 6d2:	00079463          	bnez	a5,6da <crc_for_tokens_would_be_bad_maybe_data+0x1c>
+ 6d6:	d83ff06f          	j	458 <usb_pid_handle_data>
+	c.addi a5, (0b11000011-0b11010010)
+ 6da:	17c5                	add	a5,a5,-15
+	c.li a2, 1
+ 6dc:	4605                	li	a2,1
+	c.beqz a5, usb_pid_handle_data
+ 6de:	00079463          	bnez	a5,6e6 <done_usb_message>
+ 6e2:	d77ff06f          	j	458 <usb_pid_handle_data>
+
+000006e6 <done_usb_message>:
+
+done_usb_message:
+done_usb_message_in:
+	lw	s0, 24(sp)
+ 6e6:	4462                	lw	s0,24(sp)
+	lw	s1, 28(sp)
+ 6e8:	44f2                	lw	s1,28(sp)
+	lw	t0, 32(sp)
+ 6ea:	5282                	lw	t0,32(sp)
+	lw	t1, 36(sp)
+ 6ec:	5312                	lw	t1,36(sp)
+	lw	t2, 40(sp)
+ 6ee:	53a2                	lw	t2,40(sp)
+	lw  ra, 52(sp)
+ 6f0:	50d2                	lw	ra,52(sp)
+
+000006f2 <ret_from_se0>:
+
+ret_from_se0:
+	lw	s1, 28(sp)
+ 6f2:	44f2                	lw	s1,28(sp)
+	RESTORE_DEBUG_MARKER(48)
+ 6f4:	5242                	lw	tp,48(sp)
+	lw	a2, 8(sp)
+ 6f6:	4622                	lw	a2,8(sp)
+	lw	a3, 12(sp)
+ 6f8:	46b2                	lw	a3,12(sp)
+	lw	a4, 16(sp)
+ 6fa:	4742                	lw	a4,16(sp)
+	lw	a1, 4(sp)
+ 6fc:	4592                	lw	a1,4(sp)
+
+000006fe <interrupt_complete>:
+
+interrupt_complete:
+	// Acknowledge interrupt.
+	// EXTI->INTFR = 1<<4
+	c.j 1f; 1: // Extra little bit of delay to make sure we don't accidentally false fire.
+ 6fe:	a009                	j	700 <interrupt_complete+0x2>
+
+	la a5, EXTI_BASE + 20
+ 700:	400107b7          	lui	a5,0x40010
+ 704:	41478793          	add	a5,a5,1044 # 40010414 <__global_pointer$+0x2000fc14>
+	li a0, (1<<USB_PIN_DM)
+ 708:	4541                	li	a0,16
+	sw a0, 0(a5)
+ 70a:	c388                	sw	a0,0(a5)
+
+	// Restore stack.
+	lw	a0, 0(sp)
+ 70c:	4502                	lw	a0,0(sp)
+	lw	a5, 20(sp)
+ 70e:	47d2                	lw	a5,20(sp)
+	addi	sp,sp,80
+ 710:	6161                	add	sp,sp,80
+	mret
+ 712:	30200073          	mret
+
+00000716 <usb_pid_handle_ack>:
+	return;
+}
+*/
+
+usb_pid_handle_ack:
+	c.lw a2, 0(a4) //ist->current_endpoint -> endp;
+ 716:	4310                	lw	a2,0(a4)
+	c.slli a2, 5
+ 718:	0616                	sll	a2,a2,0x5
+	c.add a2, a4
+ 71a:	963a                	add	a2,a2,a4
+	c.addi a2, ENDP_OFFSET // usb_endpoint eps[ENDPOINTS];
+ 71c:	0671                	add	a2,a2,28
+
+	c.lw a0, (EP_TOGGLE_IN_OFFSET)(a2) // toggle_in=!toggle_in
+ 71e:	4248                	lw	a0,4(a2)
+	c.li a1, 1
+ 720:	4585                	li	a1,1
+	c.xor a0, a1
+ 722:	8d2d                	xor	a0,a0,a1
+	c.sw a0, (EP_TOGGLE_IN_OFFSET)(a2)
+ 724:	c248                	sw	a0,4(a2)
+
+	c.lw a0, (EP_COUNT_OFFSET)(a2) // count_in
+ 726:	4208                	lw	a0,0(a2)
+	c.addi a0, 1
+ 728:	0505                	add	a0,a0,1
+	c.sw a0, (EP_COUNT_OFFSET)(a2)
+ 72a:	c208                	sw	a0,0(a2)
+
+	c.j done_usb_message_in
+ 72c:	bf6d                	j	6e6 <done_usb_message>
+
+0000072e <usb_pid_handle_setup>:
+	e->count = 0;
+	e->toggle_in = 1;
+	ist->setup_request = 1;
+}*/
+usb_pid_handle_setup:
+	c.sw a2, 0(a4) // ist->current_endpoint = endp
+ 72e:	c310                	sw	a2,0(a4)
+	c.li a1, 1
+ 730:	4585                	li	a1,1
+	c.sw a1, SETUP_REQUEST_OFFSET(a4) //ist->setup_request = 1;
+ 732:	c70c                	sw	a1,8(a4)
+	c.slli a2, 3+2
+ 734:	0616                	sll	a2,a2,0x5
+	c.add a2, a4
+ 736:	963a                	add	a2,a2,a4
+	c.sw a1, (ENDP_OFFSET+EP_TOGGLE_IN_OFFSET)(a2) //e->toggle_in = 1;
+ 738:	d20c                	sw	a1,32(a2)
+	c.li a1, 0
+ 73a:	4581                	li	a1,0
+	c.sw a1, (ENDP_OFFSET+EP_COUNT_OFFSET)(a2)  //e->count = 0;
+ 73c:	ce4c                	sw	a1,28(a2)
+	c.sw a1, (ENDP_OFFSET+EP_OPAQUE_OFFSET)(a2)  //e->opaque = 0;
+ 73e:	de0c                	sw	a1,56(a2)
+	c.sw a1, (ENDP_OFFSET+EP_TOGGLE_OUT_OFFSET)(a2) //e->toggle_out = 0;
+ 740:	d24c                	sw	a1,36(a2)
+	c.j done_usb_message_in	
+ 742:	b755                	j	6e6 <done_usb_message>
+
+00000744 <usb_pid_handle_out>:
+ 744:	a310                	.short	0xa310
+//This will correctly swap back the endpoint.
+usb_pid_handle_out:
+	//void usb_pid_handle_out( uint32_t addr, uint8_t * data, uint32_t endp, uint32_t unused, struct rv003usb_internal * ist )	
+	//sb a2, 0(a4) //ist->current_endpoint = endp;
+	XW_C_SB( a2, a4, 0 ); // current_endpoint = endp
+	c.j done_usb_message_in
+ 746:	b745                	j	6e6 <done_usb_message>
+
+00000748 <handle_se0_keepalive>:
+
+handle_se0_keepalive:
+	// In here, we want to do smart stuff with the
+	// 1ms tick.
+
+	la  a0, SYSTICK_CNT
+ 748:	e000f537          	lui	a0,0xe000f
+ 74c:	0521                	add	a0,a0,8 # e000f008 <__global_pointer$+0xc000e808>
+	la a4, rv003usb_internal_data
+ 74e:	20000717          	auipc	a4,0x20000
+ 752:	8c670713          	add	a4,a4,-1850 # 20000014 <rv003usb_internal_data>
+	c.lw a1, LAST_SE0_OFFSET(a4) //last cycle count   last_se0_cyccount
+ 756:	4b0c                	lw	a1,16(a4)
+	c.lw a2, 0(a0) //this cycle count
+ 758:	4110                	lw	a2,0(a0)
+	c.sw a2, LAST_SE0_OFFSET(a4) //store it back to last_se0_cyccount
+ 75a:	cb10                	sw	a2,16(a4)
+	c.sub a2, a1
+ 75c:	8e0d                	sub	a2,a2,a1
+	c.sw a2, DELTA_SE0_OFFSET(a4) //record delta_se0_cyccount
+ 75e:	cb50                	sw	a2,20(a4)
+
+	li a1, 48000
+ 760:	65b1                	lui	a1,0xc
+ 762:	b8058593          	add	a1,a1,-1152 # bb80 <rv003usb.c.cec892f7+0x966a>
+	c.sub a2, a1
+ 766:	8e0d                	sub	a2,a2,a1
+	// This is our deviance from 48MHz.
+
+	// Make sure we aren't in left field.
+	li a5, 4000
+ 768:	6785                	lui	a5,0x1
+ 76a:	fa078793          	add	a5,a5,-96 # fa0 <_data_lma+0x4b0>
+	bge a2, a5, ret_from_se0
+ 76e:	f8f652e3          	bge	a2,a5,6f2 <ret_from_se0>
+	li a5, -4000
+ 772:	77fd                	lui	a5,0xfffff
+ 774:	06078793          	add	a5,a5,96 # fffff060 <__global_pointer$+0xdfffe860>
+	blt a2, a5, ret_from_se0
+ 778:	f6f64de3          	blt	a2,a5,6f2 <ret_from_se0>
+
+	c.lw a1, SE0_WINDUP_OFFSET(a4) // load windup se0_windup
+ 77c:	4f0c                	lw	a1,24(a4)
+	c.add a1, a2
+ 77e:	95b2                	add	a1,a1,a2
+	c.sw a1, SE0_WINDUP_OFFSET(a4) // save windup
+ 780:	cf0c                	sw	a1,24(a4)
+
+	// No further adjustments
+	beqz a1, ret_from_se0
+ 782:	d9a5                	beqz	a1,6f2 <ret_from_se0>
+
+	// 0x40021000 = RCC.CTLR
+	la a4, 0x40021000
+ 784:	40021737          	lui	a4,0x40021
+	lw a0, 0(a4)
+ 788:	4308                	lw	a0,0(a4)
+	srli a2, a0, 3 // Extract HSI Trim.
+ 78a:	00355613          	srl	a2,a0,0x3
+	andi a2, a2, 0b11111
+ 78e:	8a7d                	and	a2,a2,31
+	li a5, 0xffffff07  
+ 790:	f0700793          	li	a5,-249
+	and a0, a0, a5	// Mask off non-HSI
+ 794:	8d7d                	and	a0,a0,a5
+
+	// Decimate windup - use as HSIrim.
+	neg a1, a1
+ 796:	40b005b3          	neg	a1,a1
+	srai a2, a1, 9
+ 79a:	4095d613          	sra	a2,a1,0x9
+	addi a2, a2, 16  // add HSI offset.
+ 79e:	0641                	add	a2,a2,16
+
+	// Put trim in place in register.
+	slli a2, a2, 3
+ 7a0:	060e                	sll	a2,a2,0x3
+	or a0, a0, a2
+ 7a2:	8d51                	or	a0,a0,a2
+	sw a0, 0(a4)
+ 7a4:	c308                	sw	a0,0(a4)
+
+	j ret_from_se0
+ 7a6:	b7b1                	j	6f2 <ret_from_se0>
+
+000007a8 <usb_send_empty>:
+
+
+.balign 4
+//void usb_send_empty( uint32_t token );
+usb_send_empty:
+	c.mv a3, a0
+ 7a8:	86aa                	mv	a3,a0
+	la a0, always0
+ 7aa:	00000517          	auipc	a0,0x0
+ 7ae:	13a50513          	add	a0,a0,314 # 8e4 <always0>
+	li a1, 2
+ 7b2:	4589                	li	a1,2
+	c.mv a2, a1
+ 7b4:	862e                	mv	a2,a1
+
+000007b6 <usb_send_data>:
+//void usb_send_data( uint8_t * data, uint32_t length, uint32_t poly_function, uint32_t token );
+usb_send_data:
+	addi	sp,sp,-16
+ 7b6:	1141                	add	sp,sp,-16
+	sw	s0, 0(sp)
+ 7b8:	c022                	sw	s0,0(sp)
+	sw	s1, 4(sp)
+ 7ba:	c226                	sw	s1,4(sp)
+
+	la a5, USB_GPIO_BASE
+ 7bc:	400117b7          	lui	a5,0x40011
+ 7c0:	40078793          	add	a5,a5,1024 # 40011400 <__global_pointer$+0x20010c00>
+
+	// ASAP: Turn the bus around and send our preamble + token.
+	c.lw a4, CFGLR_OFFSET(a5)
+ 7c4:	4398                	lw	a4,0(a5)
+
+	li s1, ~((0b1111<<(USB_PIN_DP*4)) | (0b1111<<(USB_PIN_DM*4)))
+ 7c6:	fff014b7          	lui	s1,0xfff01
+ 7ca:	14fd                	add	s1,s1,-1 # fff00fff <__global_pointer$+0xdff007ff>
+	and a4, s1, a4
+ 7cc:	8f65                	and	a4,a4,s1
+
+	// Convert D+/D- into 2MHz outputs
+	li s1, ((0b0010<<(USB_PIN_DP*4)) | (0b0010<<(USB_PIN_DM*4)))
+ 7ce:	000224b7          	lui	s1,0x22
+	or a4, s1, a4
+ 7d2:	8f45                	or	a4,a4,s1
+
+	li s1, (1<<USB_PIN_DP) | (1<<(USB_PIN_DM+16))
+ 7d4:	001004b7          	lui	s1,0x100
+ 7d8:	04a1                	add	s1,s1,8 # 100008 <rv003usb.c.cec892f7+0xfdaf2>
+	c.sw s1, BSHR_OFFSET(a5)
+ 7da:	cb84                	sw	s1,16(a5)
+
+	//00: Universal push-pull output mode
+	c.sw a4, CFGLR_OFFSET(a5)
+ 7dc:	c398                	sw	a4,0(a5)
+
+	li t1, (1<<USB_PIN_DP) | (1<<(USB_PIN_DM+16)) | (1<<USB_PIN_DM) | (1<<(USB_PIN_DP+16));
+ 7de:	00180337          	lui	t1,0x180
+ 7e2:	0361                	add	t1,t1,24 # 180018 <rv003usb.c.cec892f7+0x17db02>
+
+	SAVE_DEBUG_MARKER( 8 )
+ 7e4:	c412                	sw	tp,8(sp)
+
+	// Save off our preamble and token.
+	c.slli a3, 7     //Put token further up so it gets sent later.
+ 7e6:	069e                	sll	a3,a3,0x7
+	ori s0, a3, 0x40  
+ 7e8:	0406e413          	or	s0,a3,64
+
+	li t0, 0x0000
+ 7ec:	4281                	li	t0,0
+	c.bnez a2, done_poly_check
+ 7ee:	e609                	bnez	a2,7f8 <done_poly_check>
+	li t0, 0xa001
+ 7f0:	62a9                	lui	t0,0xa
+ 7f2:	0285                	add	t0,t0,1 # a001 <rv003usb.c.cec892f7+0x7aeb>
+	li a2, 0xffff
+ 7f4:	6641                	lui	a2,0x10
+ 7f6:	167d                	add	a2,a2,-1 # ffff <rv003usb.c.cec892f7+0xdae9>
+
+000007f8 <done_poly_check>:
+done_poly_check:
+
+	c.slli a1, 3 // bump up one extra to be # of bits
+ 7f8:	058e                	sll	a1,a1,0x3
+	mv t2, a1
+ 7fa:	83ae                	mv	t2,a1
+
+	// t0 is our polynomial
+	// a2 is our running CRC.
+	// a3 is our token.
+	DEBUG_TICK_SETUP
+ 7fc:	40013237          	lui	tp,0x40013
+ 800:	c5820213          	add	tp,tp,-936 # 40012c58 <__global_pointer$+0x20012458>
+
+	c.li a4, 6 // reset bit stuffing.
+ 804:	4719                	li	a4,6
+	c.li a1, 15 // 15 bits.
+ 806:	45bd                	li	a1,15
+
+	//c.nop; c.nop; c.nop;
+	c.j pre_and_tok_send_inner_loop
+ 808:	a011                	j	80c <pre_and_tok_send_inner_loop>
+ 80a:	0001                	nop
+
+0000080c <pre_and_tok_send_inner_loop>:
+		* We have to decrement our bit stuffing index.
+		* If it is 0, we can reset our bit stuffing index.
+	*/
+
+	// a3 is now the lsb of s0 (the 'next bit' to read out)
+	c.mv a3, s0
+ 80c:	86a2                	mv	a3,s0
+	c.srli s0, 1 // Shift down into the next bit.
+ 80e:	8005                	srl	s0,s0,0x1
+	c.andi a3, 1
+ 810:	8a85                	and	a3,a3,1
+	// If a3 is 0, we should FLIP
+	// if a3 is 1, we should NOT flip.
+
+	c.addi a4, -1
+ 812:	177d                	add	a4,a4,-1 # 40020fff <__global_pointer$+0x200207ff>
+	c.bnez a3, pre_and_tok_send_one_bit
+ 814:	e681                	bnez	a3,81c <pre_and_tok_send_one_bit>
+//Send 0 bit. (Flip)
+	// Flip s1 (our bshr setting) by xoring it.
+	// 10.....01
+	// 11.....11 (xor with)
+	// 01.....10
+	xor s1, s1, t1
+ 816:	0064c4b3          	xor	s1,s1,t1
+	c.li a4, 6 // reset bit stuffing.
+ 81a:	4719                	li	a4,6
+
+0000081c <pre_and_tok_send_one_bit>:
+	// DO NOT flip.  Allow a4 to increment.
+// Deliberately unaligned for timing purposes.
+.balign 4
+pre_and_tok_send_one_bit:
+	sw s1, BSHR_OFFSET(a5)
+ 81c:	cb84                	sw	s1,16(a5)
+	//Bit stuffing doesn't happen.
+	c.addi a1, -1
+ 81e:	15fd                	add	a1,a1,-1
+	c.beqz a1, pre_and_tok_done_sending_data
+ 820:	c591                	beqz	a1,82c <pre_and_tok_done_sending_data>
+	nx6p3delay( 2, a3 );	c.nop;             // Free time!
+ 822:	468d                	li	a3,3
+ 824:	16fd                	add	a3,a3,-1
+ 826:	fefd                	bnez	a3,824 <pre_and_tok_send_one_bit+0x8>
+ 828:	0001                	nop
+	c.j pre_and_tok_send_inner_loop
+ 82a:	b7cd                	j	80c <pre_and_tok_send_inner_loop>
+
+0000082c <pre_and_tok_done_sending_data>:
+////////////////////////////////////////////////////////////////////////////
+
+	// We have very little time here.  Just enough to do this.
+
+	//Restore size.
+	mv a1, t2//lw  a1, 12(sp)
+ 82c:	859e                	mv	a1,t2
+	c.beqz a1, no_really_done_sending_data  //No actual payload?  Bail!
+ 82e:	c5ad                	beqz	a1,898 <no_really_done_sending_data>
+	c.addi a1, -1
+ 830:	15fd                	add	a1,a1,-1
+//	beqz t2, no_really_done_sending_data 
+
+	bnez t0, done_poly_check2
+ 832:	00029463          	bnez	t0,83a <done_poly_check2>
+	li a2, 0xffff
+ 836:	6641                	lui	a2,0x10
+ 838:	167d                	add	a2,a2,-1 # ffff <rv003usb.c.cec892f7+0xdae9>
+
+0000083a <done_poly_check2>:
+ 83a:	0001                	nop
+
+0000083c <load_next_byte>:
+ 83c:	2100                	.short	0x2100
+	// CH32v003 has the XW extension.
+	// this replaces: lb s0, 0(a0)
+	XW_C_LBU(s0, a0, 0);
+	//lb s0, 0(a0)
+	//	.long 0x00150513 // addi a0, a0, 1  (For alignment's sake)
+	c.addi a0, 1
+ 83e:	0505                	add	a0,a0,1
+
+00000840 <send_inner_loop>:
+		* We have to decrement our bit stuffing index.
+		* If it is 0, we can reset our bit stuffing index.
+	*/
+
+	// a3 is now the lsb of s0 (the 'next bit' to read out)
+	c.mv a3, s0
+ 840:	86a2                	mv	a3,s0
+	c.andi a3, 1
+ 842:	8a85                	and	a3,a3,1
+	// If a3 is 0, we should FLIP
+	// if a3 is 1, we should NOT flip.
+	c.beqz a3, send_zero_bit
+ 844:	ce81                	beqz	a3,85c <send_zero_bit>
+	c.srli s0, 1 // Shift down into the next bit.
+ 846:	8005                	srl	s0,s0,0x1
+//send_one_bit:
+	//HANDLE_CRC (1 bit)
+	andi a3, a2, 1
+ 848:	00167693          	and	a3,a2,1
+	c.addi a3, -1
+ 84c:	16fd                	add	a3,a3,-1
+	and a3, a3, t0
+ 84e:	0056f6b3          	and	a3,a3,t0
+	c.srli a2, 1
+ 852:	8205                	srl	a2,a2,0x1
+	c.xor a2, a3
+ 854:	8e35                	xor	a2,a2,a3
+
+	c.addi a4, -1
+ 856:	177d                	add	a4,a4,-1
+	c.beqz a4, insert_stuffed_bit
+ 858:	cf25                	beqz	a4,8d0 <insert_stuffed_bit>
+	c.j cont_after_jump
+ 85a:	a829                	j	874 <cont_after_jump>
+
+0000085c <send_zero_bit>:
+//Send 0 bit. (Flip)
+.balign 4
+send_zero_bit:
+	c.srli s0, 1 // Shift down into the next bit.
+ 85c:	8005                	srl	s0,s0,0x1
+	// a3 is temp
+	// t0 is polynomial.
+
+	// XXX WARNING: this was by https://github.com/cnlohr/rv003usb/issues/7 
+	// TODO Check me!
+	slli a3,a2,31 // Put a3s LSB into a0s MSB
+ 85e:	01f61693          	sll	a3,a2,0x1f
+	c.srai a3,31    // Copy MSB into all other bits
+ 862:	86fd                	sra	a3,a3,0x1f
+
+	// Flip s1 (our bshr setting) by xoring it.
+	// 10.....01
+	// 11.....11 (xor with)
+	// 01.....10
+	xor s1, s1, t1
+ 864:	0064c4b3          	xor	s1,s1,t1
+	sw s1, BSHR_OFFSET(a5)
+ 868:	cb84                	sw	s1,16(a5)
+
+	c.li a4, 6 // reset bit stuffing.
+ 86a:	4719                	li	a4,6
+
+	// XXX XXX CRC down here to make bit stuffing timings line up.
+	c.srli a2,1
+ 86c:	8205                	srl	a2,a2,0x1
+	and a3,a3,t0
+ 86e:	0056f6b3          	and	a3,a3,t0
+	c.xor  a2,a3 
+ 872:	8e35                	xor	a2,a2,a3
+
+00000874 <cont_after_jump>:
+
+.balign 4
+cont_after_jump:
+send_end_bit_complete:
+	c.beqz a1, done_sending_data
+ 874:	c981                	beqz	a1,884 <done_sending_data>
+	andi a3, a1, 7
+ 876:	0075f693          	and	a3,a1,7
+	c.addi a1, -1
+ 87a:	15fd                	add	a1,a1,-1
+	c.beqz a3, load_next_byte
+ 87c:	d2e1                	beqz	a3,83c <load_next_byte>
+	// Wait an extra few cycles.
+	c.j 1f; 1:
+ 87e:	a009                	j	880 <cont_after_jump+0xc>
+	c.j send_inner_loop
+ 880:	b7c1                	j	840 <send_inner_loop>
+ 882:	0001                	nop
+
+00000884 <done_sending_data>:
+
+.balign 4
+done_sending_data:
+	// BUT WAIT!! MAYBE WE NEED TO CRC!
+	beqz t0, no_really_done_sending_data
+ 884:	00028a63          	beqz	t0,898 <no_really_done_sending_data>
+	srli t0, t0, 8 // reset poly - we don't want it anymore.
+ 888:	0082d293          	srl	t0,t0,0x8
+	li a1, 7 // Load 8 more bits out
+ 88c:	459d                	li	a1,7
+	beqz t0, send_inner_loop  //Second CRC byte
+ 88e:	fa0289e3          	beqz	t0,840 <send_inner_loop>
+	// First CRC byte
+	not s0, a2 // get read to send out the CRC.
+ 892:	fff64413          	not	s0,a2
+	c.j send_inner_loop
+ 896:	b76d                	j	840 <send_inner_loop>
+
+00000898 <no_really_done_sending_data>:
+.balign 4
+no_really_done_sending_data:
+
+//	c.bnez a2, poly_function  TODO: Uncomment me!
+
+	nx6p3delay( 2, a3 );
+ 898:	468d                	li	a3,3
+ 89a:	16fd                	add	a3,a3,-1
+ 89c:	fefd                	bnez	a3,89a <no_really_done_sending_data+0x2>
+
+	// Need to perform an SE0.
+	li s1, (1<<(USB_PIN_DM+16)) | (1<<(USB_PIN_DP+16))
+ 89e:	001804b7          	lui	s1,0x180
+	c.sw s1, BSHR_OFFSET(a5)
+ 8a2:	cb84                	sw	s1,16(a5)
+
+	nx6p3delay( 7, a3 );
+ 8a4:	46a1                	li	a3,8
+ 8a6:	16fd                	add	a3,a3,-1
+ 8a8:	fefd                	bnez	a3,8a6 <no_really_done_sending_data+0xe>
+
+	li s1, (1<<(USB_PIN_DM)) | (1<<(USB_PIN_DP+16))
+ 8aa:	000804b7          	lui	s1,0x80
+ 8ae:	04c1                	add	s1,s1,16 # 80010 <rv003usb.c.cec892f7+0x7dafa>
+	c.sw s1, BSHR_OFFSET(a5)
+ 8b0:	cb84                	sw	s1,16(a5)
+
+	lw s1, CFGLR_OFFSET(a5)
+ 8b2:	4384                	lw	s1,0(a5)
+	// Convert D+/D- into inputs.
+	li a3, ~((0b11<<(USB_PIN_DP*4)) | (0b11<<(USB_PIN_DM*4)))
+ 8b4:	fffcd6b7          	lui	a3,0xfffcd
+ 8b8:	16fd                	add	a3,a3,-1 # fffccfff <__global_pointer$+0xdffcc7ff>
+	and s1, a3, s1
+ 8ba:	8cf5                	and	s1,s1,a3
+	// 01: Floating input mode.
+	li a3, ((0b01<<(USB_PIN_DP*4+2)) | (0b01<<(USB_PIN_DM*4+2)))
+ 8bc:	000446b7          	lui	a3,0x44
+	or s1, a3, s1
+ 8c0:	8cd5                	or	s1,s1,a3
+	sw s1, CFGLR_OFFSET(a5)
+ 8c2:	c384                	sw	s1,0(a5)
+
+	lw	s0, 0(sp)
+ 8c4:	4402                	lw	s0,0(sp)
+	lw	s1, 4(sp)
+ 8c6:	4492                	lw	s1,4(sp)
+	RESTORE_DEBUG_MARKER( 8 )
+ 8c8:	4222                	lw	tp,8(sp)
+	addi	sp,sp,16
+ 8ca:	0141                	add	sp,sp,16
+	ret
+ 8cc:	8082                	ret
+ 8ce:	0001                	nop
+
+000008d0 <insert_stuffed_bit>:
+
+.balign 4
+// TODO: This seems to be either 222 or 226 (not 224) in cases.
+// It's off by 2 clock cycles.  Probably OK, but, hmm.
+insert_stuffed_bit:
+	nx6p3delay(3, a3)
+ 8d0:	4691                	li	a3,4
+ 8d2:	16fd                	add	a3,a3,-1 # 43fff <rv003usb.c.cec892f7+0x41ae9>
+ 8d4:	fefd                	bnez	a3,8d2 <insert_stuffed_bit+0x2>
+	xor s1, s1, t1
+ 8d6:	0064c4b3          	xor	s1,s1,t1
+	c.li a4, 6 // reset bit stuffing.
+ 8da:	4719                	li	a4,6
+	c.nop
+ 8dc:	0001                	nop
+	c.nop
+ 8de:	0001                	nop
+	sw s1, BSHR_OFFSET(a5)
+ 8e0:	cb84                	sw	s1,16(a5)
+	c.j send_end_bit_complete
+ 8e2:	bf49                	j	874 <cont_after_jump>
+
+000008e4 <always0>:
+ 8e4:	00000000          	.word	0x00000000
+
+000008e8 <string3>:
+ 8e8:	00300308 00300030 00000000              ..0.0.0.....
+
+000008f4 <string2>:
+ 8f4:	00590310 00620075 006b0069 00790065     ..Y.u.b.i.k.e.y.
+ 904:	00000000                                ....
+
+00000908 <string1>:
+ 908:	0059030e 00620075 00630069 0000006f     ..Y.u.b.i.c.o...
+
+00000918 <string0>:
+ 918:	04090304 00000400 00000424 00000424     ........$...$...
+ 928:	00000408 00000424 00000424 00000424     ....$...$...$...
+ 938:	00000424 00000424 00000424 00000424     $...$...$...$...
+ 948:	00000424 00000424 00000424 00000424     $...$...$...$...
+ 958:	00000424 00000424 00000424 00000424     $...$...$...$...
+ 968:	00000424 00000424 00000424 00000410     $...$...$.......
+ 978:	000003c2 00000424 000003c8 000003d0     ....$...........
+ 988:	000003d8 000003e0 000003ba 000003f0     ................
+ 998:	000003f8 000003e8 00000424 000003aa     ........$.......
+ 9a8:	00000344 00000384 000003b2              D...........
+
+000009b4 <keyboard_hid_desc>:
+ 9b4:	06090105 017501a1 07050895 e729e019     ......u.......).
+ 9c4:	01250015 01950281 03810875 01750595     ..%.....u.....u.
+ 9d4:	01190805 02910529 03750195 06950391     ....).....u.....
+ 9e4:	00150875 0705a725 a7290019 00c00081     u...%.....).....
+
+000009f4 <mouse_hid_desc>:
+ 9f4:	02090105 010901a1 090500a1 03290119     ..............).
+ a04:	01250015 01750395 01950281 03810575     ..%...u.....u...
+ a14:	30090105 38093109 7f258115 03950875     ...0.1.8..%.u...
+ a24:	c0c00681                                ....
+
+00000a28 <config_descriptor>:
+ a28:	003b0209 80000102 00040964 01030100     ..;.....d.......
+ a38:	21090002 01000110 07003422 04038105     ...!...."4......
+ a48:	04090a00 03010001 09000101 00011021     ............!...
+ a58:	003f2201 03820507 000a0008              ."?.........
+
+00000a64 <device_descriptor>:
+ a64:	01100112 08000000 dead1337 02010002     ........7.......
+ a74:	00000103                                ....
+
+00000a78 <descriptor_list>:
+ a78:	00000100 00000a64 00000012 00000200     ....d...........
+ a88:	00000a28 0000003b 00002200 000009f4     (...;...."......
+ a98:	00000034 00012200 000009b4 0000003f     4...."......?...
+ aa8:	00000300 00000918 00000004 04090301     ................
+ ab8:	00000908 0000000e 04090302 000008f4     ................
+ ac8:	00000010 04090303 000008e8 00000008     ................
+
+00000ad8 <payload.0>:
+ ad8:	6574090d 6e696d72 0a096c61 69660909     ..terminal....fi
+ ae8:	7e20646e 00000a2f                       nd ~/...

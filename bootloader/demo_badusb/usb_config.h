@@ -18,7 +18,7 @@
 
 #ifndef __ASSEMBLER__
 
-#include <tinyusb_hid.h>
+#include <../../tinyusb_hid.h>
 
 #ifdef INSTANCE_DESCRIPTORS
 //Taken from http://www.usbmadesimple.co.uk/ums_ms_desc_dev.htm
@@ -186,8 +186,8 @@ static const uint8_t config_descriptor[] = {  //Mostly stolen from a USB mouse I
 	10, //Interval Number of milliseconds between polls.
 };
 
-#define STR_MANUFACTURER u"Yubico"
-#define STR_PRODUCT      u"Yubikey"
+#define STR_MANUFACTURER u"CNLohr"
+#define STR_PRODUCT      u"RV003USB"
 #define STR_SERIAL       u"000"
 
 struct usb_string_descriptor_struct {

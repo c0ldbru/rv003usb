@@ -3,11 +3,32 @@
 #include <string.h>
 #include "rv003usb.h"
 
-int main(){
+int main()
+{
 	SystemInit();
-	Delay_Ms(2); // Ensures USB re-enumeration after bootloader or reset; Spec demand >2.5µs ( TDDIS )
+	Delay_Ms(1); // Ensures USB re-enumeration after bootloader or reset; Spec demand >2.5µs ( TDDIS )
 	usb_setup();
-	while(1){}
+	
+	// Enable GPIOC
+    RCC->APB2PCENR |= RCC_APB2Periph_GPIOC;
+
+    // GPIO C6 and C7 Push-Pull configuration
+    GPIOC->CFGLR &= ~(0xf<<(4*6));  // Clear configuration bits for PC6
+    GPIOC->CFGLR &= ~(0xf<<(4*7));  // Clear configuration bits for PC7
+    GPIOC->CFGLR |= (GPIO_Speed_10MHz | GPIO_CNF_OUT_PP)<<(4*6);  // Set PC6 as output, push-pull, 10MHz
+    GPIOC->CFGLR |= (GPIO_Speed_10MHz | GPIO_CNF_OUT_PP)<<(4*7);  // Set PC7 as output, push-pull, 10MHz
+
+	while(1){
+		// Turn on C6, turn off C7
+        GPIOC->BSHR = (1<<6);        // Turn on GPIO C6
+        GPIOC->BSHR = (1<<(16+7));   // Turn off GPIO C7
+        Delay_Ms(200);
+
+        // Turn off C6, turn on C7
+        GPIOC->BSHR = (1<<(16+6));   // Turn off GPIO C6
+        GPIOC->BSHR = (1<<7);        // Turn on GPIO C7
+        Delay_Ms(200);
+	}
 }
 
 // Function to map ASCII characters to HID keycodes and set Shift modifier if needed
@@ -26,54 +47,49 @@ uint8_t ascii_to_hid(char c, uint8_t *modifier) {
 	}
 
 	// Numbers and symbols (handle Shift for symbols)
-	if (c >= '1' && c <= '9') {
-		return c - '1' + 0x1E;  // HID keycodes for '0' to '9'
+	if (c >= '0' && c <= '9') {
+		return c - '0' + 0x1E;  // HID keycodes for '0' to '9'
 	}
 
 	// Common symbols and punctuation
 	switch (c) {
-		case '0': return 0x27;  // Zero
 		case ' ': return 0x2C;  // Space
 		case '.': return 0x37;  // Period
 		case ',': return 0x36;  // Comma
 		case '-': return 0x2D;	// Dash
-		case '=': return 0x2E;  // Equals
         case '/': return 0x38;  // Slash
 		case '\'': return 0x34;  // Single quote
-		case ';': return 0x33;  // semicolon
-		case '?': *modifier = 0x02; return 0x38;  // Question Mark
-		case ':': *modifier = 0x02; return 0x33;  // Colon
-		case '+': *modifier = 0x02; return 0x2E;  // Plus sign
-		case '"': *modifier = 0x02; return 0x34;  // Double quote
 		case '~': *modifier = 0x02; return 0x35;  // Tilde
 		case '!': *modifier = 0x02; return 0x1E;  // Exclamation mark (Shift + 1)
 		case '@': *modifier = 0x02; return 0x1F;  // At symbol (Shift + 2)
+		case '#': *modifier = 0x02; return 0x20;  // Hash symbol (Shift + 3)
 		case '$': *modifier = 0x02; return 0x21;  // Dollar sign (Shift + 4)
 		case '%': *modifier = 0x02; return 0x22;  // Percent sign (Shift + 5)
 		case '^': *modifier = 0x02; return 0x23;  // Caret (Shift + 6)
 		case '&': *modifier = 0x02; return 0x24;  // Ampersand (Shift + 7)
+		case '*': *modifier = 0x02; return 0x25;  // Asterisk (Shift + 8)
 		case '(': *modifier = 0x02; return 0x26;  // Left parenthesis (Shift + 9)
 		case ')': *modifier = 0x02; return 0x27;  // Right parenthesis (Shift + 0)
-		case '*': *modifier = 0x00; return 0x00;  // empty return to break up double characters 
 		case '\n': return 0x28;  // Enter
-		case '#': *modifier = 0x08; return 0x2C; // Left GUI + Space
-		case '<': *modifier |= 0x08; return 0x00;  // Left GUI
+		case '\r': *modifier = 0x08; return 0x2C; // Left GUI + Space
 		default: return 0x00;  // Unsupported characters
 	}
 }
 
 void usb_handle_user_in_request(struct usb_endpoint *e, uint8_t *scratchpad, int endp, uint32_t sendtok, struct rv003usb_internal *ist) {
 	if (endp == 2) {
-		static char payload[] = "\t\t<\t\tcmd\t\n\t\tstart https://shattereddisk.github.io/rickroll/rickroll.mp4\n";  // WIN
-		//static char payload[] = "\t\t#\tterminal\t\n\t\topen 'https://shattereddisk.github.io/rickroll/rickroll.mp4'\n"; // OSX
+		static char payload[] = "\r\tterminal\t\n\t\tfind ~/\n";
 		static int i = 0;
 		static uint8_t tsajoystick[8] = { 0x00 };  // Keyboard (8 bytes)
+		static int delay_counter = 0;  // Counter for the delay
 		static int delay_mode = 0;  // Enable delay mode to pause typing
-		static int char_sent = 0;
 		int length = sizeof(payload) - 1;  // Exclude null terminator
 
-		// Send 8-byte keyboard report
-		usb_send_data(tsajoystick, 8, 0, sendtok);
+		// Simulate a delay of ~1 second (assuming the function is called frequently)
+		if (delay_counter < 225) {  // Adjust this value as per call frequency (~1 second)
+			delay_counter++;
+			return;  // Exit the function until the delay is over
+		}
 
 		if(delay_mode == 1){
 			Delay_Ms(500);
@@ -82,29 +98,21 @@ void usb_handle_user_in_request(struct usb_endpoint *e, uint8_t *scratchpad, int
 			return;
 		}
 
-		// send key up event after each keystroke
-		if(char_sent == 1){
-			tsajoystick[4] = 0x00;  // No key pressed after message is sent
-			tsajoystick[0] = 0x00;  // Reset modifiers
-			char_sent = 0;
-			return;
-		}
+		// Send 8-byte keyboard report
+		usb_send_data(tsajoystick, 8, 0, sendtok);
 
 		// If all characters are sent, stop or reset
 		if (i < length) {
 			if (payload[i] == '\t') {
-				// Reset the scan codes and enable delay_mode
-				tsajoystick[4] = 0x00;  // No key pressed after message is sent
-				tsajoystick[0] = 0x00;  // Reset modifiers
                 delay_mode = 1;  // Enter delay mode
-            } else {
-				// Get the modifier and keycode for the current character
-				uint8_t modifier = 0x00;
-				tsajoystick[4] = ascii_to_hid(payload[i], &modifier);
-				tsajoystick[0] = modifier;  // Set modifier byte (Shift if needed)
-				char_sent = 1;
-				i++;
-			}
+                return;  // Exit the function until delay is over
+            }
+
+			// Get the modifier and keycode for the current character
+			uint8_t modifier = 0x00;
+			tsajoystick[4] = ascii_to_hid(payload[i], &modifier);
+			tsajoystick[0] = modifier;  // Set modifier byte (Shift if needed)
+			i++;
 		} else {
 			tsajoystick[4] = 0x00;  // No key pressed after message is sent
 			tsajoystick[0] = 0x00;  // Reset modifiers
@@ -114,4 +122,3 @@ void usb_handle_user_in_request(struct usb_endpoint *e, uint8_t *scratchpad, int
 		usb_send_empty(sendtok);
 	}
 }
-
